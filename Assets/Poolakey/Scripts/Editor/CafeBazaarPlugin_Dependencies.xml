@@ -1,0 +1,10 @@
+<dependencies>
+  <androidPackages>
+    <androidPackage spec="com.github.cafebazaar.Poolakey:poolakey:1.0.0-beta02">
+      <repositories>
+        <repository>https://jitpack.io</repository>
+      </repositories>
+    </androidPackage>
+    <androidPackage spec="org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.20"/>
+  </androidPackages>
+</dependencies>
