@@ -21,10 +21,22 @@ namespace Poolakey.Scripts
             );
         }
 
-        public void purchaseProduct(string productId, string payload)
+        public void purchaseProduct(string productId, string payload = null)
         {
             poolakeyBridge.CallStatic(
                 "purchaseProduct",
+                getActivity(), 
+                paymentConfiguration.securityCheck.rsaPublicKey,
+                productId,
+                payload,
+                new PaymentCallbackProxy()
+            );
+        }
+
+        public void subscribeProduct(string productId, string payload = null)
+        {
+            poolakeyBridge.CallStatic(
+                "subscribeProduct",
                 getActivity(), 
                 paymentConfiguration.securityCheck.rsaPublicKey,
                 productId,

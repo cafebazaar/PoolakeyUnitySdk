@@ -2144,8 +2144,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1478282520}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: Suscribe
+        m_TargetAssemblyTypeName: PoolakeyExample, Assembly-CSharp
+        m_MethodName: SubscribeProduct
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

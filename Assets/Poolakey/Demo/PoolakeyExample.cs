@@ -25,7 +25,11 @@ public class PoolakeyExample : MonoBehaviour
 
     public void PurchaseProduct()
     {
-        payment.purchaseProduct("ss", null);
+        payment.purchaseProduct("test");
+    }
+    public void SubscribeProduct()
+    {
+        payment.subscribeProduct("test");
     }
 
     public void Log(string message)
