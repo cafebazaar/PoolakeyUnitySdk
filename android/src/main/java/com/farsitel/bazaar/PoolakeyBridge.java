@@ -11,7 +11,7 @@ import com.farsitel.bazaar.callback.SKUDetailsCallback;
 import java.lang.reflect.Field;
 
 public class PoolakeyBridge {
-    private static final String TAG = "PoolakeyBridge";
+    public static final String TAG = "PoolakeyBridge";
     private static PoolakeyBridge instance;
 
     private Class<?> mUnityPlayerClass;
@@ -64,7 +64,9 @@ public class PoolakeyBridge {
     }
 
     public void purchase(String type, String productId, String payload, PaymentCallback callback) {
-        PaymentActivity.Command cmd = type == "" ? PaymentActivity.Command.PurchaseProduct : PaymentActivity.Command.Subscribe
+        PaymentActivity.Command cmd = PaymentActivity.Command.PurchaseProduct;
+        if (!type.equalsIgnoreCase("inApp"))
+            cmd = PaymentActivity.Command.Subscribe;
         PoolakeyKotlinBridge.INSTANCE.startActivity(getCurrentActivity(), cmd, callback, productId, payload);
     }
 
