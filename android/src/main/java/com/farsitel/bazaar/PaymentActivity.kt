@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
+import com.farsitel.bazaar.callback.PaymentCallback
 import ir.cafebazaar.poolakey.request.PurchaseRequest
 import java.security.InvalidParameterException
 
@@ -24,15 +25,15 @@ class PaymentActivity : FragmentActivity() {
 
     private fun purchaseProduct() {
         PoolakeyKotlinBridge.payment.purchaseProduct(
-                this@PaymentActivity,
-                PurchaseRequest(productId!!, REQUEST_CODE, payload)
+            this@PaymentActivity,
+            PurchaseRequest(productId!!, REQUEST_CODE, payload)
         ) {
             purchaseFlowBegan {
                 // Bazaar's billing screen has opened successfully
             }
-            failedToBeginFlow { throwable ->
+            failedToBeginFlow { t ->
                 // Failed to open Bazaar's billing screen
-                CallbackHolder.paymentCallback?.onFailure(throwable)
+                paymentCallback?.onFailure(t.message, t.stackTrace.joinToString("\n"))
                 finish()
             }
         }
@@ -40,15 +41,15 @@ class PaymentActivity : FragmentActivity() {
 
     private fun subscribeProduct() {
         PoolakeyKotlinBridge.payment.subscribeProduct(
-                this@PaymentActivity,
-                PurchaseRequest(productId!!, REQUEST_CODE, payload)
+            this@PaymentActivity,
+            PurchaseRequest(productId!!, REQUEST_CODE, payload)
         ) {
             purchaseFlowBegan {
                 // Bazaar's billing screen has opened successfully
             }
-            failedToBeginFlow { throwable ->
+            failedToBeginFlow { t ->
                 // Failed to open Bazaar's billing screen
-                CallbackHolder.paymentCallback?.onFailure(throwable)
+                paymentCallback?.onFailure(t.message, t.stackTrace.joinToString("\n"))
                 finish()
             }
         }
@@ -63,21 +64,36 @@ class PaymentActivity : FragmentActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         PoolakeyKotlinBridge.payment.onActivityResult(requestCode, resultCode, data) {
-            purchaseSucceed { purchaseEntity ->
+            purchaseSucceed { p ->
                 // User purchased the product
-                CallbackHolder.paymentCallback?.onSuccess(purchaseEntity)
+                paymentCallback?.onSuccess(
+                    p.orderId,
+                    p.purchaseToken,
+                    p.payload,
+                    p.packageName,
+                    p.purchaseState.ordinal,
+                    p.purchaseTime,
+                    p.productId,
+                    p.originalJson,
+                    p.dataSignature
+                )
                 finish()
             }
             purchaseCanceled {
                 // User canceled the purchase
-                CallbackHolder.paymentCallback?.onCancel()
+                paymentCallback?.onCancel()
                 finish()
             }
-            purchaseFailed { throwable ->
-                CallbackHolder.paymentCallback?.onFailure(throwable)
+            purchaseFailed { t ->
+                paymentCallback?.onFailure(t.message, t.stackTrace.joinToString("\n"))
                 finish()
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy();
+        paymentCallback = null
     }
 
     companion object {
@@ -86,14 +102,17 @@ class PaymentActivity : FragmentActivity() {
         private const val KEY_PRODUCT_ID = "productId"
         private const val KEY_PAYLOAD = "payload"
         private const val KEY_COMMAND = "command"
+        var paymentCallback: PaymentCallback? = null
 
         @JvmStatic
         fun start(
-                activity: Activity,
-                command: Command,
-                productId: String,
-                payload: String?
+            activity: Activity,
+            command: Command,
+            productId: String,
+            callback: PaymentCallback,
+            payload: String?
         ) {
+            paymentCallback = callback
             val intent = Intent(activity, PaymentActivity::class.java)
             intent.putExtra(KEY_PRODUCT_ID, productId)
             intent.putExtra(KEY_PAYLOAD, payload)

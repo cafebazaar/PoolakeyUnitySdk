@@ -42,18 +42,19 @@ object PoolakeyKotlinBridge {
 
     fun getSkuDetails(type: String, productId: String, callback: SKUDetailsCallback) {
         if (connection.getState() != ConnectionState.Connected) {
+            callback.onFailure("Connection not found.", "In order to getting ske details, connect to Poolakey!")
             return
         }
         when (type) {
             "inApp" ->
                 payment.getInAppSkuDetails(skuIds = listOf(productId)) {
                     getSkuDetailsSucceed(callback::onSuccess)
-                    getSkuDetailsFailed(callback::onFailure)
+                    getSkuDetailsFailed{ t -> callback.onFailure(t.message, t.stackTrace.joinToString { "\n" }) }
                 }
             else ->
                 payment.getSubscriptionSkuDetails(skuIds = listOf(productId)) {
                     getSkuDetailsSucceed(callback::onSuccess)
-                    getSkuDetailsFailed(callback::onFailure)
+                    getSkuDetailsFailed{ t -> callback.onFailure(t.message, t.stackTrace.joinToString { "\n" }) }
                 }
         }
     }
@@ -61,19 +62,19 @@ object PoolakeyKotlinBridge {
     fun startActivity(
         activity: Activity,
         command: PaymentActivity.Command,
-        paymentCallback: PaymentCallback,
+        callback: PaymentCallback,
         productId: String,
         payload: String
     ) {
-        CallbackHolder.paymentCallback = paymentCallback;
         if (connection.getState() != ConnectionState.Connected) {
-//            paymentCallback.onFailure(throw Exception(message :"") )
+            callback.onFailure("Connection not found.", "In order to purchasing, connect to Poolakey!")
             return
         }
         PaymentActivity.start(
             activity,
             command,
             productId,
+            callback,
             payload
         )
     }

@@ -46,9 +46,13 @@ namespace Poolakey.Scripts
             return result;
         }
 
-        public void Purchase(string productId, Type type = Type.inApp, string payload = "")
+        public async Task<Result<PurchaseInfo>> Purchase(string productId, Type type = Type.inApp, Action<Result<PurchaseInfo>> onComplete = null, string payload = "")
         {
-            poolakeyBridge.Call("purchase", type.ToString(), productId, payload, new PaymentCallbackProxy());
+            var callback = new PaymentCallbackProxy();
+            poolakeyBridge.Call("purchase", type.ToString(), productId, payload, callback);
+            var result = await callback.WaitForResult();
+            onComplete?.Invoke(result);
+            return result;
         }
 
         public void Consume(string token)

@@ -9,6 +9,8 @@ public class PoolakeyExample : MonoBehaviour
     public Text ConsoleText;
 
     private Payment payment;
+    private PurchaseInfo purchase;
+
     void Start()
     {
         Log("Poolakey Plugin Version: " + PluginVersion.VersionString);
@@ -24,23 +26,25 @@ public class PoolakeyExample : MonoBehaviour
 
     public async void GetPurchaseSkuDetails()
     {
-        var result = await payment.GetSkuDetails("coin_6");
+        var result = await payment.GetSkuDetails("test");
         if (result.status == Status.Success)
             foreach (var sku in result.data)
                 print(sku.ToString());
     }
-    public void GetSubscribesSkuDetails()
-    {
-        payment.GetSubscriptionSkuDetails("test");
-    }
 
-    public void Purchase()
+    public async void Purchase()
     {
-        payment.Purchase("test");
+        var result = await payment.Purchase("test");
+        print(result.message + " .. " + result.stackTrace);
+        if (result.status == Status.Success)
+        {
+            purchase = result.data;
+            print(purchase.ToString());
+    }
     }
     public void Subscribe()
     {
-        payment.Subscribe("test");
+        _ = payment.Purchase("test", Payment.Type.subscription);
     }
 
     public void Consume()
