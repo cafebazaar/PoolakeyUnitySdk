@@ -81,11 +81,12 @@ object PoolakeyKotlinBridge {
 
     fun consume(purchaseToken: String, callback: ConsumeCallback) {
         if (connection.getState() != ConnectionState.Connected) {
+            callback.onFailure("Connection not found.", "In order to consumption, connect to Poolakey!")
             return
         }
         payment.consumeProduct(purchaseToken) {
             consumeSucceed(callback::onSuccess)
-            consumeFailed(callback::onFailure)
+            consumeFailed { t -> callback.onFailure(t.message, t.stackTrace.joinToString { "\n" }) }
         }
     }
 }

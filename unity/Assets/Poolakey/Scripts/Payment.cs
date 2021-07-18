@@ -55,9 +55,13 @@ namespace Poolakey.Scripts
             return result;
         }
 
-        public void Consume(string token)
+        public async Task<Result<bool>> Consume(string token, Action<Result<bool>> onComplete = null)
         {
-            poolakeyBridge.Call("consume", token, new ConsumeCallbackProxy());
+            var callback = new ConsumeCallbackProxy();
+            poolakeyBridge.Call("consume", token, callback);
+            var result = await callback.WaitForResult();
+            onComplete?.Invoke(result);
+            return result;
         }
     }
 }

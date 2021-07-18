@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using Poolakey.Scripts;
 using UnityEngine.UI;
 using Poolakey;
@@ -40,24 +40,26 @@ public class PoolakeyExample : MonoBehaviour
         {
             purchase = result.data;
             print(purchase.ToString());
-    }
+        }
     }
     public void Subscribe()
     {
         _ = payment.Purchase("test", Payment.Type.subscription);
     }
 
-    public void Consume()
+    public async void Consume()
     {
-        payment.Consume("token");
+        var result = await payment.Consume(purchase.purchaseToken);
+        print(result.message + " .. " + result.stackTrace);
     }
-    
+
     public void Log(string message)
     {
         ConsoleText.text += message + "\n";
     }
 
-    void OnApplicationQuit(){
-       payment.Disconnect(); 
+    void OnApplicationQuit()
+    {
+        payment.Disconnect();
     }
 }
