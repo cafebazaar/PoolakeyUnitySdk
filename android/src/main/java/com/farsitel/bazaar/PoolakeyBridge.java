@@ -49,12 +49,8 @@ public class PoolakeyBridge {
         return null;
     }
 
-    public static Payment connect(
-            Activity activity,
-            String rsaPublicKey,
-            ConnectionCallback callback
-    ) {
-        return PoolakeyJavaBridge.INSTANCE.connect(activity, rsaPublicKey, callback);
+    public void connect(String rsaPublicKey, ConnectionCallback callback) {
+        PoolakeyJavaBridge.INSTANCE.connect(getCurrentActivity(), rsaPublicKey, callback);
     }
 
     public static void purchaseProduct(

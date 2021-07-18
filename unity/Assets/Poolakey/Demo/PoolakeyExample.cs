@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using Poolakey;
 using Poolakey.Scripts;
 using UnityEngine.UI;
@@ -6,8 +6,6 @@ using UnityEngine.UI;
 public class PoolakeyExample : MonoBehaviour
 {
     public Text ConsoleText;
-
-    public Button Btn_InitIAB, Btn_StartPurchase, Btn_ConsumePurchase, Btn_subscribe,Btn_purchaseList;
 
     private Payment payment;
     void Start()
@@ -20,7 +18,7 @@ public class PoolakeyExample : MonoBehaviour
 
     public void Connect()
     {
-        payment.connect();
+        payment.Connect();
     }
 
     public void PurchaseProduct()

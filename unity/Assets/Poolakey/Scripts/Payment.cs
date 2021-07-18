@@ -19,13 +19,12 @@ namespace Poolakey.Scripts
             }
         }
 
+        public void Connect()
         {
-            poolakeyBridge.CallStatic<AndroidJavaObject>(
+            poolakeyBridge.Call(
                 "connect",
-                getActivity(), 
                 paymentConfiguration.securityCheck.rsaPublicKey,
-                new ConnectionCallbackProxy()
-            );
+                new ConnectionCallbackProxy());
         }
 
         public void purchaseProduct(string productId, string payload = null)
