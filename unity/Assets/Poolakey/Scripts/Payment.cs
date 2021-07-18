@@ -61,4 +61,11 @@ namespace Poolakey.Scripts
                 new PaymentCallbackProxy(this));
         }
 
+        public void Consume(string token)
+        {
+            poolakeyBridge.Call(
+                "consume",
+                token,
+                new ConsumeCallbackProxy(this));
+        }
 }

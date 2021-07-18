@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import com.farsitel.bazaar.callback.SKUDetailsCallback
 import com.farsitel.bazaar.callback.ConnectionCallback
+import com.farsitel.bazaar.callback.ConsumeCallback
 import com.farsitel.bazaar.callback.PaymentCallback
 import ir.cafebazaar.poolakey.Connection
 import ir.cafebazaar.poolakey.ConnectionState
@@ -76,5 +77,13 @@ object PoolakeyJavaBridge {
         }
     }
 
+    fun consume(purchaseToken: String, callback: ConsumeCallback) {
+        if (connection.getState() != ConnectionState.Connected) {
+            return
+        }
+        payment.consumeProduct(purchaseToken) {
+            consumeSucceed(callback::onSuccess)
+            consumeFailed (callback::onFailure)
+        }
     }
 }
