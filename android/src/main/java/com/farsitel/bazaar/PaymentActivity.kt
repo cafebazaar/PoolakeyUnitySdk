@@ -4,10 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
-import ir.cafebazaar.poolakey.Connection
-import ir.cafebazaar.poolakey.Payment
-import ir.cafebazaar.poolakey.config.PaymentConfiguration
-import ir.cafebazaar.poolakey.config.SecurityCheck
 import ir.cafebazaar.poolakey.request.PurchaseRequest
 import java.security.InvalidParameterException
 
@@ -27,7 +23,7 @@ class PaymentActivity : FragmentActivity() {
     }
 
     private fun purchaseProduct() {
-        PoolakeyJavaBridge.payment.purchaseProduct(
+        PoolakeyKotlinBridge.payment.purchaseProduct(
                 this@PaymentActivity,
                 PurchaseRequest(productId!!, REQUEST_CODE, payload)
         ) {
@@ -43,7 +39,7 @@ class PaymentActivity : FragmentActivity() {
     }
 
     private fun subscribeProduct() {
-        PoolakeyJavaBridge.payment.subscribeProduct(
+        PoolakeyKotlinBridge.payment.subscribeProduct(
                 this@PaymentActivity,
                 PurchaseRequest(productId!!, REQUEST_CODE, payload)
         ) {
@@ -66,7 +62,7 @@ class PaymentActivity : FragmentActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        PoolakeyJavaBridge.payment.onActivityResult(requestCode, resultCode, data) {
+        PoolakeyKotlinBridge.payment.onActivityResult(requestCode, resultCode, data) {
             purchaseSucceed { purchaseEntity ->
                 // User purchased the product
                 CallbackHolder.paymentCallback?.onSuccess(purchaseEntity)

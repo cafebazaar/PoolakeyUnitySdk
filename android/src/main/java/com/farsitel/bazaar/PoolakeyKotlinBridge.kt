@@ -12,7 +12,7 @@ import ir.cafebazaar.poolakey.Payment
 import ir.cafebazaar.poolakey.config.PaymentConfiguration
 import ir.cafebazaar.poolakey.config.SecurityCheck
 
-object PoolakeyJavaBridge {
+object PoolakeyKotlinBridge {
     lateinit var payment: Payment
     lateinit var connection: Connection
 

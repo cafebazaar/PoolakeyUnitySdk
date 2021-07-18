@@ -52,30 +52,30 @@ public class PoolakeyBridge {
     }
 
     public void connect(String rsaPublicKey, ConnectionCallback callback) {
-        PoolakeyJavaBridge.INSTANCE.connect(getCurrentActivity(), rsaPublicKey, callback);
+        PoolakeyKotlinBridge.INSTANCE.connect(getCurrentActivity(), rsaPublicKey, callback);
     }
 
     public void disconnect() {
-        PoolakeyJavaBridge.INSTANCE.disconnect();
+        PoolakeyKotlinBridge.INSTANCE.disconnect();
     }
 
     public void getPurchaseSkuDetails(String productId, SKUDetailsCallback callback) {
-        PoolakeyJavaBridge.INSTANCE.getPurchaseSkuDetails(productId, callback);
+        PoolakeyKotlinBridge.INSTANCE.getPurchaseSkuDetails(productId, callback);
     }
 
     public void getSubscriptionSkuDetails(String productId, SKUDetailsCallback callback) {
-        PoolakeyJavaBridge.INSTANCE.getSubscriptionSkuDetails(productId, callback);
+        PoolakeyKotlinBridge.INSTANCE.getSubscriptionSkuDetails(productId, callback);
     }
 
     public void purchase(String productId, String payload, PaymentCallback callback) {
-        PoolakeyJavaBridge.INSTANCE.startActivity(getCurrentActivity(), PaymentActivity.Command.PurchaseProduct, callback, productId, payload);
+        PoolakeyKotlinBridge.INSTANCE.startActivity(getCurrentActivity(), PaymentActivity.Command.PurchaseProduct, callback, productId, payload);
     }
 
     public void subscribe(String productId, String payload, PaymentCallback callback) {
-        PoolakeyJavaBridge.INSTANCE.startActivity(getCurrentActivity(), PaymentActivity.Command.Subscribe, callback, productId, payload);
+        PoolakeyKotlinBridge.INSTANCE.startActivity(getCurrentActivity(), PaymentActivity.Command.Subscribe, callback, productId, payload);
     }
 
     public void consume(String token, ConsumeCallback callback) {
-        PoolakeyJavaBridge.INSTANCE.consume(token, callback);
+        PoolakeyKotlinBridge.INSTANCE.consume(token, callback);
     }
 }
