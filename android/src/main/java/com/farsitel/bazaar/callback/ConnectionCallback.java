@@ -1,10 +1,7 @@
 package com.farsitel.bazaar.callback;
 
 public interface ConnectionCallback {
-
     void onConnect();
-
     void onDisconnect();
-
-    void onFailure();
+    void onFailure(String message, String stackTrace);
 }

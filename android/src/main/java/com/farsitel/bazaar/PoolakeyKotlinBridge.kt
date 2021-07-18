@@ -25,9 +25,7 @@ object PoolakeyKotlinBridge {
         val paymentConfig = PaymentConfiguration(localSecurityCheck = securityCheck)
         payment = Payment(context = context, config = paymentConfig)
         connection = payment.connect {
-            connectionFailed {
-                callback.onFailure()
-            }
+            connectionFailed{ t -> callback.onFailure(t.message, t.stackTrace.joinToString { "\n" }) }
             connectionSucceed {
                 callback.onConnect()
             }

@@ -1,5 +1,9 @@
 using UnityEngine;
 using Poolakey.Scripts.Callbacks;
+using System.Threading.Tasks;
+using Poolakey.Scripts.Data;
+using System.Collections.Generic;
+using System;
 
 namespace Poolakey.Scripts
 {
@@ -20,12 +24,13 @@ namespace Poolakey.Scripts
             }
         }
 
-        public void Connect()
+        public async Task<Result<bool>> Connect(Action<Result<bool>> onComplete = null)
         {
-            poolakeyBridge.Call(
-                "connect",
-                paymentConfiguration.securityCheck.rsaPublicKey,
-                new ConnectionCallbackProxy());
+            var callback = new ConnectionCallbackProxy();
+            poolakeyBridge.Call("connect", paymentConfiguration.securityCheck.rsaPublicKey, callback);
+            var result = await callback.WaitForResult();
+            onComplete?.Invoke(result);
+            return result;
         }
         public void Disconnect()
         {

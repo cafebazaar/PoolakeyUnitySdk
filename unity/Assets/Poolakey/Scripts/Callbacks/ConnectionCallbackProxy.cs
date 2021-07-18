@@ -1,24 +1,34 @@
+using System.Threading.Tasks;
+using Poolakey.Scripts.Data;
 using UnityEngine;
 
 namespace Poolakey.Scripts.Callbacks
 {
     public class ConnectionCallbackProxy : AndroidJavaProxy
     {
-        public ConnectionCallbackProxy() : base("com.farsitel.bazaar.callback.ConnectionCallback") {}
+        private Result<bool> result;
+        public ConnectionCallbackProxy() : base("com.farsitel.bazaar.callback.ConnectionCallback") { }
 
         void onConnect()
         {
-            Debug.Log("onConnectttttt");
+            result = new Result<bool>(Status.Success, true, "Connection Succeed.");
         }
 
         void onDisconnect()
         {
-            Debug.Log("onDisconnect");
+            result = new Result<bool>(Status.Disconnect, true, "Connection Disconnect.");
         }
 
-        void onFailure()
+        void onFailure(string message, string stackTrace)
         {
-            Debug.Log("onFailure");
+            result = new Result<bool>(Status.Failure, false, message, stackTrace);
+        }
+    
+        public async Task<Result<bool>> WaitForResult()
+        {
+            while (result == null)
+                await Task.Delay(100);
+            return result;
         }
     }
 }
