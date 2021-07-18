@@ -58,3 +58,14 @@ task createJar(type: Copy) {
     include('classes.jar')
     rename('classes.jar', 'Poolakey.jar')
 }
+task updateAAR(type: Copy) {
+    from('build/outputs/aar')
+    into('../unity/Assets/Poolakey/Plugins/')
+    include(project.name + '-release.aar')
+}
+
+project.tasks.whenTaskAdded { Task theTask ->
+    if (theTask.name == 'assembleRelease') {
+        theTask.dependsOn(updateAAR) // Compile the custom task after compiling apk
+    }
+}
