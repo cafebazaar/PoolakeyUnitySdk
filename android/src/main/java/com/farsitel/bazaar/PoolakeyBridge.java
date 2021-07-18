@@ -59,20 +59,13 @@ public class PoolakeyBridge {
         PoolakeyKotlinBridge.INSTANCE.disconnect();
     }
 
-    public void getPurchaseSkuDetails(String productId, SKUDetailsCallback callback) {
-        PoolakeyKotlinBridge.INSTANCE.getPurchaseSkuDetails(productId, callback);
+    public void getSkuDetails(String type, String productId, SKUDetailsCallback callback) {
+        PoolakeyKotlinBridge.INSTANCE.getSkuDetails(type, productId, callback);
     }
 
-    public void getSubscriptionSkuDetails(String productId, SKUDetailsCallback callback) {
-        PoolakeyKotlinBridge.INSTANCE.getSubscriptionSkuDetails(productId, callback);
-    }
-
-    public void purchase(String productId, String payload, PaymentCallback callback) {
-        PoolakeyKotlinBridge.INSTANCE.startActivity(getCurrentActivity(), PaymentActivity.Command.PurchaseProduct, callback, productId, payload);
-    }
-
-    public void subscribe(String productId, String payload, PaymentCallback callback) {
-        PoolakeyKotlinBridge.INSTANCE.startActivity(getCurrentActivity(), PaymentActivity.Command.Subscribe, callback, productId, payload);
+    public void purchase(String type, String productId, String payload, PaymentCallback callback) {
+        PaymentActivity.Command cmd = type == "" ? PaymentActivity.Command.PurchaseProduct : PaymentActivity.Command.Subscribe
+        PoolakeyKotlinBridge.INSTANCE.startActivity(getCurrentActivity(), cmd, callback, productId, payload);
     }
 
     public void consume(String token, ConsumeCallback callback) {

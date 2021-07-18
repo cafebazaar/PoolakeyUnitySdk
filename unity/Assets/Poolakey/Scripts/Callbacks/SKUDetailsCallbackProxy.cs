@@ -4,12 +4,9 @@ namespace Poolakey.Scripts.Callbacks
 {
     public class SKUDetailsCallbackProxy : AndroidJavaProxy
     {
-        private Payment owner;
+        private Result<List<SKUDetails>> result;
 
-        public SKUDetailsCallbackProxy(Payment owner) : base("com.farsitel.bazaar.callback.SKUDetailsCallback")
-        {
-            this.owner = owner;
-        }
+        public SKUDetailsCallbackProxy() : base("com.farsitel.bazaar.callback.SKUDetailsCallback"){}
 
         void onSuccess(AndroidJavaObject purchaseEntity)
         {

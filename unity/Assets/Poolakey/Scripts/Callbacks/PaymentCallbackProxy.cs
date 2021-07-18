@@ -4,13 +4,8 @@ namespace Poolakey.Scripts.Callbacks
 {
     public class PaymentCallbackProxy : AndroidJavaProxy
     {
-        private Payment owner;
 
-        public PaymentCallbackProxy(Payment owner) : base("com.farsitel.bazaar.callback.PaymentCallback")
-        {
-            this.owner = owner;
-        }
-
+        public PaymentCallbackProxy() : base("com.farsitel.bazaar.callback.PaymentCallback") { }
         void onSuccess(AndroidJavaObject purchaseEntity)
         {
             Debug.Log("onSuccess " + purchaseEntity.Get<string>("originalJson"));

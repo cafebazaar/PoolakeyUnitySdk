@@ -5,6 +5,7 @@ namespace Poolakey.Scripts
 {
     public class Payment
     {
+        public enum Type { inApp, subscription }
         PaymentConfiguration paymentConfiguration;
         private AndroidJavaObject poolakeyBridge;
         public Payment(PaymentConfiguration paymentConfiguration)
@@ -31,44 +32,19 @@ namespace Poolakey.Scripts
             poolakeyBridge.Call("disconnect");
         }
 
-        public void GetPurchaseSkuDetails(string productId)
+        public void GetSkuDetails(string productId, Type type = Type.inApp)
         {
-            poolakeyBridge.Call(
-                "getPurchaseSkuDetails",
-                productId,
-                new SKUDetailsCallbackProxy(this));
-        }
-        public void GetSubscriptionSkuDetails(string productId)
-        {
-            poolakeyBridge.Call(
-                "getSubscriptionSkuDetails",
-                productId,
-                new SKUDetailsCallbackProxy(this));
+            poolakeyBridge.Call("getSkuDetails", type.ToString(), productId, new SKUDetailsCallbackProxy());
         }
 
-        public void Purchase(string productId, string payload = "")
+        public void Purchase(string productId, Type type = Type.inApp, string payload = "")
         {
-            poolakeyBridge.Call(
-                "purchase",
-                productId,
-                payload,
-                new PaymentCallbackProxy(this));
-        }
-        public void Subscribe(string productId, string payload = "")
-        {
-            poolakeyBridge.Call(
-                "subscribe",
-                productId,
-                payload,
-                new PaymentCallbackProxy(this));
+            poolakeyBridge.Call("purchase", type.ToString(), productId, payload, new PaymentCallbackProxy());
         }
 
         public void Consume(string token)
         {
-            poolakeyBridge.Call(
-                "consume",
-                token,
-                new ConsumeCallbackProxy(this));
+            poolakeyBridge.Call("consume", token, new ConsumeCallbackProxy());
         }
     }
 }

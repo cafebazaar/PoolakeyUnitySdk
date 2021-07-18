@@ -42,26 +42,23 @@ object PoolakeyKotlinBridge {
     }
 
 
-    fun getSubscriptionSkuDetails(productId: String, callback: SKUDetailsCallback) {
+    fun getSkuDetails(type: String, productId: String, callback: SKUDetailsCallback) {
         if (connection.getState() != ConnectionState.Connected) {
             return
         }
-        payment.getSubscriptionSkuDetails(skuIds = listOf(productId)) {
-            getSkuDetailsSucceed(callback::onSuccess)
-            getSkuDetailsFailed(callback::onFailure)
+        when (type) {
+            "inApp" ->
+                payment.getInAppSkuDetails(skuIds = listOf(productId)) {
+                    getSkuDetailsSucceed(callback::onSuccess)
+                    getSkuDetailsFailed(callback::onFailure)
+                }
+            else ->
+                payment.getSubscriptionSkuDetails(skuIds = listOf(productId)) {
+                    getSkuDetailsSucceed(callback::onSuccess)
+                    getSkuDetailsFailed(callback::onFailure)
+                }
         }
     }
-
-    fun getPurchaseSkuDetails(productId: String, callback: SKUDetailsCallback) {
-        if (connection.getState() != ConnectionState.Connected) {
-            return
-        }
-        payment.getInAppSkuDetails(skuIds = listOf(productId)) {
-            getSkuDetailsSucceed(callback::onSuccess)
-            getSkuDetailsFailed(callback::onFailure)
-        }
-    }
-
 
     fun startActivity(
         activity: Activity,
