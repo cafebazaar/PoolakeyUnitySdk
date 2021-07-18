@@ -27,6 +27,22 @@ namespace Poolakey.Scripts
                 new ConnectionCallbackProxy());
         }
 
+        public void GetPurchaseSkuDetails(string productId)
+        {
+            poolakeyBridge.Call(
+                "getPurchaseSkuDetails",
+                productId,
+                new SKUDetailsCallbackProxy(this));
+        }
+
+        public void GetSubscriptionSkuDetails(string productId)
+        {
+            poolakeyBridge.Call(
+                "getSubscriptionSkuDetails",
+                productId,
+                new SKUDetailsCallbackProxy(this));
+        }
+
         public void Purchase(string productId, string payload = "")
         {
             poolakeyBridge.Call(

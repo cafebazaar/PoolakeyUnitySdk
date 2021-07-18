@@ -21,6 +21,15 @@ public class PoolakeyExample : MonoBehaviour
         payment.Connect();
     }
 
+    public void GetPurchaseSkuDetails()
+    {
+        payment.GetPurchaseSkuDetails("test");
+    }
+    public void GetSubscribesSkuDetails()
+    {
+        payment.GetSubscriptionSkuDetails("test");
+    }
+
     public void Purchase()
     {
         payment.Purchase("test");

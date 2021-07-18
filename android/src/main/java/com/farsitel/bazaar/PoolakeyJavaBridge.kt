@@ -2,6 +2,7 @@ package com.farsitel.bazaar
 
 import android.app.Activity
 import android.content.Context
+import com.farsitel.bazaar.callback.SKUDetailsCallback
 import com.farsitel.bazaar.callback.ConnectionCallback
 import com.farsitel.bazaar.callback.PaymentCallback
 import ir.cafebazaar.poolakey.Connection
@@ -54,5 +55,26 @@ object PoolakeyJavaBridge {
             payload
         )
     }
+
+    fun getSubscriptionSkuDetails(productId: String, callback: SKUDetailsCallback) {
+        if (connection.getState() != ConnectionState.Connected) {
+            return
+        }
+        payment.getSubscriptionSkuDetails(skuIds = listOf(productId)) {
+            getSkuDetailsSucceed(callback::onSuccess)
+            getSkuDetailsFailed(callback::onFailure)
+        }
+    }
+
+    fun getPurchaseSkuDetails(productId: String, callback: SKUDetailsCallback) {
+        if (connection.getState() != ConnectionState.Connected) {
+            return
+        }
+        payment.getInAppSkuDetails(skuIds = listOf(productId)) {
+            getSkuDetailsSucceed(callback::onSuccess)
+            getSkuDetailsFailed(callback::onFailure)
+        }
+    }
+
     }
 }

@@ -3,6 +3,7 @@ package com.farsitel.bazaar;
 import android.app.Activity;
 import android.util.Log;
 
+import com.farsitel.bazaar.callback.SKUDetailsCallback;
 import com.farsitel.bazaar.callback.ConnectionCallback;
 import com.farsitel.bazaar.callback.PaymentCallback;
 
@@ -51,6 +52,13 @@ public class PoolakeyBridge {
 
     public void connect(String rsaPublicKey, ConnectionCallback callback) {
         PoolakeyJavaBridge.INSTANCE.connect(getCurrentActivity(), rsaPublicKey, callback);
+    }
+
+    public void getPurchaseSkuDetails(String productId, SKUDetailsCallback callback) {
+        PoolakeyJavaBridge.INSTANCE.getPurchaseSkuDetails(productId, callback);
+    }
+    public void getSubscriptionSkuDetails(String productId, SKUDetailsCallback callback) {
+        PoolakeyJavaBridge.INSTANCE.getSubscriptionSkuDetails(productId, callback);
     }
 
     public void purchase(String productId, String payload, PaymentCallback callback) {
