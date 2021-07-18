@@ -3,10 +3,10 @@ package com.farsitel.bazaar;
 import android.app.Activity;
 import android.util.Log;
 
-import com.farsitel.bazaar.callback.ConsumeCallback;
-import com.farsitel.bazaar.callback.SKUDetailsCallback;
 import com.farsitel.bazaar.callback.ConnectionCallback;
+import com.farsitel.bazaar.callback.ConsumeCallback;
 import com.farsitel.bazaar.callback.PaymentCallback;
+import com.farsitel.bazaar.callback.SKUDetailsCallback;
 
 import java.lang.reflect.Field;
 
@@ -55,9 +55,14 @@ public class PoolakeyBridge {
         PoolakeyJavaBridge.INSTANCE.connect(getCurrentActivity(), rsaPublicKey, callback);
     }
 
+    public void disconnect() {
+        PoolakeyJavaBridge.INSTANCE.disconnect();
+    }
+
     public void getPurchaseSkuDetails(String productId, SKUDetailsCallback callback) {
         PoolakeyJavaBridge.INSTANCE.getPurchaseSkuDetails(productId, callback);
     }
+
     public void getSubscriptionSkuDetails(String productId, SKUDetailsCallback callback) {
         PoolakeyJavaBridge.INSTANCE.getSubscriptionSkuDetails(productId, callback);
     }
@@ -65,6 +70,7 @@ public class PoolakeyBridge {
     public void purchase(String productId, String payload, PaymentCallback callback) {
         PoolakeyJavaBridge.INSTANCE.startActivity(getCurrentActivity(), PaymentActivity.Command.PurchaseProduct, callback, productId, payload);
     }
+
     public void subscribe(String productId, String payload, PaymentCallback callback) {
         PoolakeyJavaBridge.INSTANCE.startActivity(getCurrentActivity(), PaymentActivity.Command.Subscribe, callback, productId, payload);
     }

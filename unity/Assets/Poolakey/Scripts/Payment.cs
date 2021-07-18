@@ -15,7 +15,7 @@ namespace Poolakey.Scripts
                 if (pluginClass != null)
                 {
                     poolakeyBridge = pluginClass.CallStatic<AndroidJavaObject>("getInstance");
-        }
+                }
             }
         }
 
@@ -26,6 +26,10 @@ namespace Poolakey.Scripts
                 paymentConfiguration.securityCheck.rsaPublicKey,
                 new ConnectionCallbackProxy());
         }
+        public void Disconnect()
+        {
+            poolakeyBridge.Call("disconnect");
+        }
 
         public void GetPurchaseSkuDetails(string productId)
         {
@@ -34,7 +38,6 @@ namespace Poolakey.Scripts
                 productId,
                 new SKUDetailsCallbackProxy(this));
         }
-
         public void GetSubscriptionSkuDetails(string productId)
         {
             poolakeyBridge.Call(
@@ -51,7 +54,6 @@ namespace Poolakey.Scripts
                 payload,
                 new PaymentCallbackProxy(this));
         }
-
         public void Subscribe(string productId, string payload = "")
         {
             poolakeyBridge.Call(
@@ -68,4 +70,5 @@ namespace Poolakey.Scripts
                 token,
                 new ConsumeCallbackProxy(this));
         }
+    }
 }
