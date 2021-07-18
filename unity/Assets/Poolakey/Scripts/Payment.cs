@@ -27,28 +27,22 @@ namespace Poolakey.Scripts
                 new ConnectionCallbackProxy());
         }
 
-        public void purchaseProduct(string productId, string payload = null)
+        public void Purchase(string productId, string payload = "")
         {
-            poolakeyBridge.CallStatic(
-                "purchaseProduct",
-                getActivity(), 
-                paymentConfiguration.securityCheck.rsaPublicKey,
+            poolakeyBridge.Call(
+                "purchase",
                 productId,
                 payload,
-                new PaymentCallbackProxy()
-            );
+                new PaymentCallbackProxy(this));
         }
 
-        public void subscribeProduct(string productId, string payload = null)
+        public void Subscribe(string productId, string payload = "")
         {
-            poolakeyBridge.CallStatic(
-                "subscribeProduct",
-                getActivity(), 
-                paymentConfiguration.securityCheck.rsaPublicKey,
+            poolakeyBridge.Call(
+                "subscribe",
                 productId,
                 payload,
-                new PaymentCallbackProxy()
-            );
+                new PaymentCallbackProxy(this));
         }
 
 }

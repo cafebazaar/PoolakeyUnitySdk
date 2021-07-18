@@ -21,13 +21,13 @@ public class PoolakeyExample : MonoBehaviour
         payment.Connect();
     }
 
-    public void PurchaseProduct()
+    public void Purchase()
     {
-        payment.purchaseProduct("test");
+        payment.Purchase("test");
     }
-    public void SubscribeProduct()
+    public void Subscribe()
     {
-        payment.subscribeProduct("test");
+        payment.Subscribe("test");
     }
 
     public void Log(string message)

@@ -1,7 +1,9 @@
 package com.farsitel.bazaar
 
+import android.app.Activity
 import android.content.Context
 import com.farsitel.bazaar.callback.ConnectionCallback
+import com.farsitel.bazaar.callback.PaymentCallback
 import ir.cafebazaar.poolakey.Connection
 import ir.cafebazaar.poolakey.ConnectionState
 import ir.cafebazaar.poolakey.Payment
@@ -31,6 +33,26 @@ object PoolakeyJavaBridge {
                 callback.onDisconnect()
             }
         }
+    }
+
+    fun startActivity(
+        activity: Activity,
+        command: PaymentActivity.Command,
+        paymentCallback: PaymentCallback,
+        productId: String,
+        payload: String
+    ) {
+        CallbackHolder.paymentCallback = paymentCallback;
+        if (connection.getState() != ConnectionState.Connected) {
+//            paymentCallback.onFailure(throw Exception(message :"") )
+            return
+        }
+        PaymentActivity.start(
+            activity,
+            command,
+            productId,
+            payload
+        )
     }
     }
 }

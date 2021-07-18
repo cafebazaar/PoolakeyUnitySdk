@@ -53,37 +53,12 @@ public class PoolakeyBridge {
         PoolakeyJavaBridge.INSTANCE.connect(getCurrentActivity(), rsaPublicKey, callback);
     }
 
-    public static void purchaseProduct(
-            Activity activity,
-            String rsaPublicKey,
-            String productId,
-            String payload,
-            PaymentCallback paymentCallback
-    ) {
-        CallbackHolder.INSTANCE.setPaymentCallback(paymentCallback);
-        PaymentActivity.start(
-                activity,
-                PaymentActivity.Command.PurchaseProduct,
-                rsaPublicKey,
-                productId,
-                payload
-        );
+    public void purchase(String productId, String payload, PaymentCallback callback) {
+        PoolakeyJavaBridge.INSTANCE.startActivity(getCurrentActivity(), PaymentActivity.Command.PurchaseProduct, callback, productId, payload);
+    }
+    public void subscribe(String productId, String payload, PaymentCallback callback) {
+        PoolakeyJavaBridge.INSTANCE.startActivity(getCurrentActivity(), PaymentActivity.Command.Subscribe, callback, productId, payload);
     }
 
-    public static void subscribeProduct(
-            Activity activity,
-            String rsaPublicKey,
-            String productId,
-            String payload,
-            PaymentCallback paymentCallback
-    ) {
-        CallbackHolder.INSTANCE.setPaymentCallback(paymentCallback);
-        PaymentActivity.start(
-                activity,
-                PaymentActivity.Command.Subscribe,
-                rsaPublicKey,
-                productId,
-                payload
-        );
-    }
+
 }
