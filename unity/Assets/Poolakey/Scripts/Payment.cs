@@ -1,5 +1,6 @@
 using UnityEngine;
 using Poolakey.Scripts.Callbacks;
+
 namespace Poolakey.Scripts
 {
     public class Payment
@@ -9,9 +10,15 @@ namespace Poolakey.Scripts
         public Payment(PaymentConfiguration paymentConfiguration)
         {
             this.paymentConfiguration = paymentConfiguration;
-            poolakeyBridge = new AndroidJavaObject("com.farsitel.bazaar.PoolakeyBridge");
+            using (var pluginClass = new AndroidJavaClass("com.farsitel.bazaar.PoolakeyBridge"))
+            {
+                if (pluginClass != null)
+                {
+                    poolakeyBridge = pluginClass.CallStatic<AndroidJavaObject>("getInstance");
         }
-        public void connect()
+            }
+        }
+
         {
             poolakeyBridge.CallStatic<AndroidJavaObject>(
                 "connect",
@@ -45,11 +52,4 @@ namespace Poolakey.Scripts
             );
         }
 
-        private AndroidJavaObject getActivity()
-        {
-            AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"); 
-            AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-            return currentActivity;
-        }
-    }
 }
