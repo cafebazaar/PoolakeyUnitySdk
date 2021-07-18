@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-using Poolakey;
+using UnityEngine;
 using Poolakey.Scripts;
 using UnityEngine.UI;
+using Poolakey;
+using Poolakey.Scripts.Data;
 
 public class PoolakeyExample : MonoBehaviour
 {
@@ -11,19 +12,22 @@ public class PoolakeyExample : MonoBehaviour
     void Start()
     {
         Log("Poolakey Plugin Version: " + PluginVersion.VersionString);
-        SecurityCheck securityCheck = SecurityCheck.Enable("MIHNMA0GCSqGSIb3DQEBAQUAA4G7ADCBtwKBrwCr1DxbF5Ub4SnksjwVnEu5wmLyzoD7MHtM8rVzDFeZInWLsxefy4j9sm853u7haBEBk83na5wHAYzHHK6oq5nzCpdxzbQUuVfw5x4Ir4zb6cUPbHlHNHgRYMfcEaWWV4ek/kY+PebYsZNAdPpiWH0tx+kTYjRvKUsvrkVvsUfHOYyUJmhZFHwVJohSVL2X6uTqBdlZVPsD0aJtCrbXL2JuzsNvH3q91OcQ6yLV1NsCAwEAAQ==");
+        SecurityCheck securityCheck = SecurityCheck.Disable();
         PaymentConfiguration paymentConfiguration = new PaymentConfiguration(securityCheck);
         payment = new Payment(paymentConfiguration);
     }
 
     public void Connect()
     {
-        payment.Connect();
+        _ = payment.Connect();
     }
 
-    public void GetPurchaseSkuDetails()
+    public async void GetPurchaseSkuDetails()
     {
-        payment.GetPurchaseSkuDetails("test");
+        var result = await payment.GetSkuDetails("coin_6");
+        if (result.status == Status.Success)
+            foreach (var sku in result.data)
+                print(sku.ToString());
     }
     public void GetSubscribesSkuDetails()
     {

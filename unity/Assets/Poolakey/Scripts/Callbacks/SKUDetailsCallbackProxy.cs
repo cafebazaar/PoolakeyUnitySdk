@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Poolakey.Scripts.Data;
 using UnityEngine;
 
 namespace Poolakey.Scripts.Callbacks
@@ -10,18 +13,25 @@ namespace Poolakey.Scripts.Callbacks
 
         void onSuccess(AndroidJavaObject purchaseEntity)
         {
-            Debug.Log("onSuccess ");
+            var list = new List<SKUDetails>();
             var length = purchaseEntity.Call<int>("size");
             for (int i = 0; i < length; i++)
             {
-                var sku = purchaseEntity.Call<AndroidJavaObject>("get", i);
-                Debug.Log(sku.Call<string>("toString"));
+                list.Add(new SKUDetails(purchaseEntity.Call<AndroidJavaObject>("get", i)));
             }
+            result = new Result<List<SKUDetails>>(Status.Success, list, "Fetch SKU details completed.");
         }
 
-        void onFailure(AndroidJavaObject throwable)
+        void onFailure(string message, string stackTrace)
         {
-            Debug.Log("onFailure " + throwable);
+            result = new Result<List<SKUDetails>>(Status.Failure, null, message, stackTrace);
+        }
+
+        public async Task<Result<List<SKUDetails>>> WaitForResult()
+        {
+            while (result == null)
+                await Task.Delay(100);
+            return result;
         }
     }
 }

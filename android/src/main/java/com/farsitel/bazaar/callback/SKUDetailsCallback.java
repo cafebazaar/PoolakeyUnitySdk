@@ -7,10 +7,6 @@ import java.util.List;
 import ir.cafebazaar.poolakey.entity.SkuDetails;
 
 public interface SKUDetailsCallback {
-
-    default void onSuccess(List<SkuDetails> it) {
-    }
-
-    default void onFailure(@NotNull Throwable throwable) {
-    }
+    void onSuccess(List<SkuDetails> it);
+    void onFailure(String message, String stackTrace);
 }
