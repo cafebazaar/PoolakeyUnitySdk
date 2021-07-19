@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using Poolakey.Scripts;
 using UnityEngine.UI;
 using Poolakey;
@@ -21,38 +21,49 @@ public class PoolakeyExample : MonoBehaviour
         payment = new Payment(paymentConfiguration);
     }
 
-    public void Connect()
+    public async void Connect()
     {
-        _ = payment.Connect();
+        var result = await payment.Connect();
+        Log($"{result.message}, {result.stackTrace}");
     }
 
     public async void GetPurchaseSkuDetails()
     {
         var result = await payment.GetSkuDetails("test");
         if (result.status == Status.Success)
+        {
             foreach (var sku in result.data)
-                print(sku.ToString());
+            {
+                Log(sku.ToString());
+            }
+        }
     }
 
     public async void Purchase()
     {
         var result = await payment.Purchase("test");
-        print(result.message + " .. " + result.stackTrace);
+        Log($"{result.message}, {result.stackTrace}");
         if (result.status == Status.Success)
         {
             purchase = result.data;
-            print(purchase.ToString());
+            Log(purchase.ToString());
         }
     }
-    public void Subscribe()
+    public async void Subscribe()
     {
-        _ = payment.Purchase("test", Payment.Type.subscription);
+        var result = await payment.Purchase("test", Payment.Type.subscription);
+        print($"{result.message}, {result.stackTrace}");
+        if (result.status == Status.Success)
+        {
+            purchase = result.data;
+            Log(purchase.ToString());
+        }
     }
 
     public async void Consume()
     {
         var result = await payment.Consume(purchase.purchaseToken);
-        print(result.message + " .. " + result.stackTrace);
+        print($"{result.message}, {result.stackTrace}");
     }
 
     public void Log(string message)
