@@ -5,10 +5,8 @@ using UnityEngine;
 
 namespace Poolakey.Scripts.Callbacks
 {
-    public class SKUDetailsCallbackProxy : AndroidJavaProxy
+    public class SKUDetailsCallbackProxy : BaseCallbackProxy
     {
-        private Result<List<SKUDetails>> result;
-
         public SKUDetailsCallbackProxy() : base("com.farsitel.bazaar.callback.SKUDetailsCallback"){}
 
         void onSuccess(AndroidJavaObject purchaseEntity)

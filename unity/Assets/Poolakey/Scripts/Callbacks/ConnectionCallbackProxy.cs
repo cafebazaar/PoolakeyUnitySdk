@@ -4,9 +4,8 @@ using UnityEngine;
 
 namespace Poolakey.Scripts.Callbacks
 {
-    public class ConnectionCallbackProxy : AndroidJavaProxy
+    public class ConnectionCallbackProxy : BaseCallbackProxy
     {
-        private Result<bool> result;
         public ConnectionCallbackProxy() : base("com.farsitel.bazaar.callback.ConnectionCallback") { }
 
         void onConnect()
