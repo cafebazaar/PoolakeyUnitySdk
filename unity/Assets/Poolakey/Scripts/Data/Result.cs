@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Poolakey.Scripts.Data
 {
-    public enum Status { Success, Cancel, Disconnect, Failure, Unknown }
+    public enum Status { Success, Start, Cancel, Disconnect, Failure, Unknown }
     public class Result
     {
         public Status status;

@@ -30,6 +30,7 @@ class PaymentActivity : FragmentActivity() {
         ) {
             purchaseFlowBegan {
                 // Bazaar's billing screen has opened successfully
+                paymentCallback?.onStart()
             }
             failedToBeginFlow { throwable ->
                 // Failed to open Bazaar's billing screen
@@ -46,6 +47,7 @@ class PaymentActivity : FragmentActivity() {
         ) {
             purchaseFlowBegan {
                 // Bazaar's billing screen has opened successfully
+                paymentCallback?.onStart()
             }
             failedToBeginFlow { throwable ->
                 // Failed to open Bazaar's billing screen

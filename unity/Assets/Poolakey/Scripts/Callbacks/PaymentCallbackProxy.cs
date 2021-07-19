@@ -1,10 +1,26 @@
+using System;
 using Poolakey.Scripts.Data;
 
 namespace Poolakey.Scripts.Callbacks
 {
     public class PaymentCallbackProxy : BaseCallbackProxy
     {
-        public PaymentCallbackProxy() : base("com.farsitel.bazaar.callback.PaymentCallback") { }
+        private Action<PurchaseResult> onStartAction;
+
+        public PaymentCallbackProxy(Action<PurchaseResult> onStartAction) : base("com.farsitel.bazaar.callback.PaymentCallback")
+        {
+            this.onStartAction = onStartAction;
+        }
+
+        void onStart()
+        {
+            onStartAction?.Invoke(new PurchaseResult(Status.Start, null, "Purchase flow started."));
+        }
+
+        void onCancel()
+        {
+            result = new PurchaseResult(Status.Cancel, null, "Purchase flow canceled.");
+        }
 
         void onSuccess(string orderId, string purchaseToken, string payload, string packageName, int purchaseState, long purchaseTime, string productId, string originalJson, string dataSignature)
         {
@@ -15,11 +31,6 @@ namespace Poolakey.Scripts.Callbacks
         void onFailure(string message, string stackTrace)
         {
             result = new PurchaseResult(Status.Failure, null, message, stackTrace);
-        }
-
-        void onCancel()
-        {
-            result = new PurchaseResult(Status.Cancel, null, "Purchase Canceled.");
         }
     }
 }
