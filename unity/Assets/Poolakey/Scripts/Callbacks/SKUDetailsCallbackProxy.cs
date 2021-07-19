@@ -17,12 +17,12 @@ namespace Poolakey.Scripts.Callbacks
             {
                 list.Add(new SKUDetails(purchaseEntity.Call<AndroidJavaObject>("get", i)));
             }
-            result = new Result<List<SKUDetails>>(Status.Success, list, "Fetch SKU details completed.");
+            result = new SKUDetailsResult(Status.Success, list, "Fetch SKU details completed.");
         }
 
         void onFailure(string message, string stackTrace)
         {
-            result = new Result<List<SKUDetails>>(Status.Failure, null, message, stackTrace);
+            result = new SKUDetailsResult(Status.Failure, null, message, stackTrace);
         }
 
         public async Task<Result<List<SKUDetails>>> WaitForResult()

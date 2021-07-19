@@ -10,17 +10,17 @@ namespace Poolakey.Scripts.Callbacks
 
         void onConnect()
         {
-            result = new Result<bool>(Status.Success, true, "Connection Succeed.");
+            result = new Result(Status.Success, "Connection Succeed.");
         }
 
         void onDisconnect()
         {
-            result = new Result<bool>(Status.Disconnect, true, "Connection Disconnect.");
+            result = new Result(Status.Disconnect, "Connection Disconnect.");
         }
 
         void onFailure(string message, string stackTrace)
         {
-            result = new Result<bool>(Status.Failure, false, message, stackTrace);
+            result = new Result(Status.Failure, message, stackTrace);
         }
     
         public async Task<Result<bool>> WaitForResult()

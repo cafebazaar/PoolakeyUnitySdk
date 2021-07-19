@@ -10,12 +10,12 @@ namespace Poolakey.Scripts.Callbacks
 
         void onSuccess()
         {
-            result = new Result<bool>(Status.Success, true, "Consumption Succeed.");
+            result = new Result(Status.Success, "Consumption Succeed.");
         }
 
         void onFailure(string message, string stackTrace)
         {
-            result = new Result<bool>(Status.Failure, false, message, stackTrace);
+            result = new Result(Status.Failure, message, stackTrace);
         }
 
         public async Task<Result<bool>> WaitForResult()
