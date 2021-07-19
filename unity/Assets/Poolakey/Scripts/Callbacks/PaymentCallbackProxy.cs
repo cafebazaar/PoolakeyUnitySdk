@@ -21,12 +21,5 @@ namespace Poolakey.Scripts.Callbacks
         {
             result = new PurchaseResult(Status.Cancel, null, "Purchase Canceled.");
         }
-
-        public async Task<Result<PurchaseInfo>> WaitForResult()
-        {
-            while (result == null)
-                await Task.Delay(100);
-            return result;
-        }
     }
 }

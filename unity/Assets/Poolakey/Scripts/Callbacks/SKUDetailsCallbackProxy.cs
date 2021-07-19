@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Poolakey.Scripts.Data;
 using UnityEngine;
 
@@ -23,13 +22,6 @@ namespace Poolakey.Scripts.Callbacks
         void onFailure(string message, string stackTrace)
         {
             result = new SKUDetailsResult(Status.Failure, null, message, stackTrace);
-        }
-
-        public async Task<Result<List<SKUDetails>>> WaitForResult()
-        {
-            while (result == null)
-                await Task.Delay(100);
-            return result;
         }
     }
 }
