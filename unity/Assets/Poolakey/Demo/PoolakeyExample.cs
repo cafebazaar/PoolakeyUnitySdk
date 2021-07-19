@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using Poolakey.Scripts;
 using UnityEngine.UI;
 using Poolakey;
@@ -14,6 +14,8 @@ public class PoolakeyExample : MonoBehaviour
     void Start()
     {
         Log("Poolakey Plugin Version: " + PluginVersion.VersionString);
+
+        // TODO: SecurityCheck.Enable("Your RSA key");
         SecurityCheck securityCheck = SecurityCheck.Disable();
         PaymentConfiguration paymentConfiguration = new PaymentConfiguration(securityCheck);
         payment = new Payment(paymentConfiguration);
