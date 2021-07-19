@@ -31,9 +31,9 @@ class PaymentActivity : FragmentActivity() {
             purchaseFlowBegan {
                 // Bazaar's billing screen has opened successfully
             }
-            failedToBeginFlow { t ->
+            failedToBeginFlow { throwable ->
                 // Failed to open Bazaar's billing screen
-                paymentCallback?.onFailure(t.message, t.stackTrace.joinToString("\n"))
+                paymentCallback?.onFailure(throwable.message, throwable.stackTrace.joinToString("\n"))
                 finish()
             }
         }
@@ -47,9 +47,9 @@ class PaymentActivity : FragmentActivity() {
             purchaseFlowBegan {
                 // Bazaar's billing screen has opened successfully
             }
-            failedToBeginFlow { t ->
+            failedToBeginFlow { throwable ->
                 // Failed to open Bazaar's billing screen
-                paymentCallback?.onFailure(t.message, t.stackTrace.joinToString("\n"))
+                paymentCallback?.onFailure(throwable.message, throwable.stackTrace.joinToString("\n"))
                 finish()
             }
         }
@@ -64,18 +64,18 @@ class PaymentActivity : FragmentActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         PoolakeyKotlinBridge.payment.onActivityResult(requestCode, resultCode, data) {
-            purchaseSucceed { p ->
+            purchaseSucceed { purchaseInfo ->
                 // User purchased the product
                 paymentCallback?.onSuccess(
-                    p.orderId,
-                    p.purchaseToken,
-                    p.payload,
-                    p.packageName,
-                    p.purchaseState.ordinal,
-                    p.purchaseTime,
-                    p.productId,
-                    p.originalJson,
-                    p.dataSignature
+                    purchaseInfo.orderId,
+                    purchaseInfo.purchaseToken,
+                    purchaseInfo.payload,
+                    purchaseInfo.packageName,
+                    purchaseInfo.purchaseState.ordinal,
+                    purchaseInfo.purchaseTime,
+                    purchaseInfo.productId,
+                    purchaseInfo.originalJson,
+                    purchaseInfo.dataSignature
                 )
                 finish()
             }
@@ -84,8 +84,8 @@ class PaymentActivity : FragmentActivity() {
                 paymentCallback?.onCancel()
                 finish()
             }
-            purchaseFailed { t ->
-                paymentCallback?.onFailure(t.message, t.stackTrace.joinToString("\n"))
+            purchaseFailed { throwable ->
+                paymentCallback?.onFailure(throwable.message, throwable.stackTrace.joinToString("\n"))
                 finish()
             }
         }

@@ -25,7 +25,7 @@ object PoolakeyKotlinBridge {
         val paymentConfig = PaymentConfiguration(localSecurityCheck = securityCheck)
         payment = Payment(context = context, config = paymentConfig)
         connection = payment.connect {
-            connectionFailed{ t -> callback.onFailure(t.message, t.stackTrace.joinToString { "\n" }) }
+            connectionFailed{ throwable -> callback.onFailure(throwable.message, throwable.stackTrace.joinToString { "\n" }) }
             connectionSucceed {
                 callback.onConnect()
             }
@@ -49,12 +49,12 @@ object PoolakeyKotlinBridge {
             "inApp" ->
                 payment.getInAppSkuDetails(skuIds = listOf(productId)) {
                     getSkuDetailsSucceed(callback::onSuccess)
-                    getSkuDetailsFailed{ t -> callback.onFailure(t.message, t.stackTrace.joinToString { "\n" }) }
+                    getSkuDetailsFailed{ throwable -> callback.onFailure(throwable.message, throwable.stackTrace.joinToString { "\n" }) }
                 }
             else ->
                 payment.getSubscriptionSkuDetails(skuIds = listOf(productId)) {
                     getSkuDetailsSucceed(callback::onSuccess)
-                    getSkuDetailsFailed{ t -> callback.onFailure(t.message, t.stackTrace.joinToString { "\n" }) }
+                    getSkuDetailsFailed{ throwable -> callback.onFailure(throwable.message, throwable.stackTrace.joinToString { "\n" }) }
                 }
         }
     }
@@ -86,7 +86,7 @@ object PoolakeyKotlinBridge {
         }
         payment.consumeProduct(purchaseToken) {
             consumeSucceed(callback::onSuccess)
-            consumeFailed { t -> callback.onFailure(t.message, t.stackTrace.joinToString { "\n" }) }
+            consumeFailed { throwable -> callback.onFailure(throwable.message, throwable.stackTrace.joinToString { "\n" }) }
         }
     }
 }

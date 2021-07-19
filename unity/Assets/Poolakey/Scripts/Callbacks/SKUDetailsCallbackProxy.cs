@@ -11,10 +11,10 @@ namespace Poolakey.Scripts.Callbacks
         void onSuccess(AndroidJavaObject purchaseEntity)
         {
             var list = new List<SKUDetails>();
-            var length = purchaseEntity.Call<int>("size");
-            for (int i = 0; i < length; i++)
+            var size = purchaseEntity.Call<int>("size");
+            for (int index = 0; index < size; index++)
             {
-                list.Add(new SKUDetails(purchaseEntity.Call<AndroidJavaObject>("get", i)));
+                list.Add(new SKUDetails(purchaseEntity.Call<AndroidJavaObject>("get", index)));
             }
             result = new SKUDetailsResult(Status.Success, list, "Fetch SKU details completed.");
         }
