@@ -61,7 +61,7 @@ task createJar(type: Copy) {
 task updateAAR(type: Copy) {
     from('build/outputs/aar')
     into('../unity/Assets/Poolakey/Plugins/')
-    include(project.name + '-release.aar')
+    include(project.name + '.aar')
 }
 
 project.tasks.whenTaskAdded { Task theTask ->
