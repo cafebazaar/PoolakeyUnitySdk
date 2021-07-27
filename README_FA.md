@@ -3,9 +3,9 @@
 [........... راهنمــــــای فـــــــارسی ..........](https://github.com/manjav/PoolakeyUnitySdk/blob/main/README_FA.md)
 
 
-### Unity SDK for [Poolakey](https://github.com/cafebazaar/Poolakey) ( New Cafebazaar IAP ).<br/><br/>
+### [کتابخانه پولکی](https://github.com/cafebazaar/Poolakey) ( سیستم جدید و ساده پرداخت درون‌برنامه کافه بازار ).<br/><br/>
 
-Easy payment :
+پیاده سازی بسیار آسان :
 
 ```c#
 var connectionResult = await payment.Connect();
@@ -13,5 +13,5 @@ var purchaseResult = await payment.Purchase("productID");
 var consumeResult = await payment.Consume(purchaseResult.data.purchaseToken);
 ```
 <br/><br/>
-## How to use?
-For more information regarding the usage of Poolakey, please check out the [wiki](https://github.com/manjav/PoolakeyUnitySdk/wiki) page.
+## چطوری شروع کنم؟
+برای اینکه اطلاعات بیشتری از نحوه استفاده کتابخانه به دست بیاری به [ویکی](https://github.com/manjav/PoolakeyUnitySdk/wiki) مراجعه کن.
