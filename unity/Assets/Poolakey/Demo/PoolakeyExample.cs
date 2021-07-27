@@ -29,7 +29,7 @@ public class PoolakeyExample : MonoBehaviour
 
     public async void GetPurchaseSkuDetails()
     {
-        var result = await payment.GetSkuDetails("test");
+        var result = await payment.GetSkuDetails("productID");
         if (result.status == Status.Success)
         {
             foreach (var sku in result.data)
@@ -41,7 +41,7 @@ public class PoolakeyExample : MonoBehaviour
 
     public async void Purchase()
     {
-        var result = await payment.Purchase("test");
+        var result = await payment.Purchase("productID");
         Log($"{result.message}, {result.stackTrace}");
         if (result.status == Status.Success)
         {
@@ -51,8 +51,8 @@ public class PoolakeyExample : MonoBehaviour
     }
     public async void Subscribe()
     {
-        var result = await payment.Purchase("test", Payment.Type.subscription);
-        print($"{result.message}, {result.stackTrace}");
+        var result = await payment.Purchase("productID", Payment.Type.subscription);
+        Log($"{result.message}, {result.stackTrace}");
         if (result.status == Status.Success)
         {
             purchase = result.data;
@@ -63,7 +63,7 @@ public class PoolakeyExample : MonoBehaviour
     public async void Consume()
     {
         var result = await payment.Consume(purchase.purchaseToken);
-        print($"{result.message}, {result.stackTrace}");
+        Log($"{result.message}, {result.stackTrace}");
     }
 
     public void Log(string message)
