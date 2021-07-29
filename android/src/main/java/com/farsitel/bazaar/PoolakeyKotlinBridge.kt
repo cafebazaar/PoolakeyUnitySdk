@@ -2,10 +2,7 @@ package com.farsitel.bazaar
 
 import android.app.Activity
 import android.content.Context
-import com.farsitel.bazaar.callback.ConnectionCallback
-import com.farsitel.bazaar.callback.ConsumeCallback
-import com.farsitel.bazaar.callback.PaymentCallback
-import com.farsitel.bazaar.callback.SKUDetailsCallback
+import com.farsitel.bazaar.callback.*
 import ir.cafebazaar.poolakey.Connection
 import ir.cafebazaar.poolakey.ConnectionState
 import ir.cafebazaar.poolakey.Payment
@@ -55,6 +52,32 @@ object PoolakeyKotlinBridge {
                 payment.getSubscriptionSkuDetails(skuIds = productIds) {
                     getSkuDetailsSucceed(callback::onSuccess)
                     getSkuDetailsFailed{ throwable -> callback.onFailure(throwable.message, throwable.stackTrace.joinToString { "\n" }) }
+                }
+        }
+    }
+
+    fun getOwnedProducts(type:String, callback: OwnedProductsCallback) {
+        if (connection.getState() != ConnectionState.Connected) {
+            callback.onFailure("Connection not found.", "In order to getting purchases, connect to Poolakey!")
+            return
+        }
+        when (type) {
+            "inApp" -> payment.getPurchasedProducts {
+                querySucceed(callback::onSuccess)
+                queryFailed { throwable ->
+                    callback.onFailure(
+                        throwable.message,
+                        throwable.stackTrace.joinToString { "\n" })
+                }
+            }
+            else ->
+                payment.getSubscribedProducts {
+                    querySucceed(callback::onSuccess)
+                    queryFailed { throwable ->
+                        callback.onFailure(
+                            throwable.message,
+                            throwable.stackTrace.joinToString { "\n" })
+                    }
                 }
         }
     }

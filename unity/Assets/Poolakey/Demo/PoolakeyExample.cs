@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using Poolakey.Scripts;
 using UnityEngine.UI;
 using Poolakey;
@@ -31,7 +31,18 @@ public class PoolakeyExample : MonoBehaviour
         }
     }
 
-
+    public async void GetOwnedProducts()
+    {
+        var result = await payment.GetOwnedProducts();
+        if (result.status == Status.Success)
+        {
+            foreach (var purchase in result.data)
+            {
+                Log(purchase.ToString());
+            }
+        }
+    }
+    
     public async void GetSkuDetails()
     {
         var result = await payment.GetSkuDetails("product_1,product_2");

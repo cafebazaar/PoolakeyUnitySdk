@@ -25,6 +25,16 @@ namespace Poolakey.Scripts.Data
             this.data = data;
         }
     }
+    
+    public class OwnedProductsResult : Result
+    {
+        public List<PurchaseInfo> data;
+        public OwnedProductsResult(Status status, List<PurchaseInfo> data, string message, string stackTrace = null) : base(status, message, stackTrace) 
+        {
+            this.data = data;
+        }
+    }
+
     public class PurchaseResult : Result
     {
         public PurchaseInfo data;

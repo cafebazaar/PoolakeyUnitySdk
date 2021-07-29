@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.farsitel.bazaar.callback.ConnectionCallback;
 import com.farsitel.bazaar.callback.ConsumeCallback;
+import com.farsitel.bazaar.callback.OwnedProductsCallback;
 import com.farsitel.bazaar.callback.PaymentCallback;
 import com.farsitel.bazaar.callback.SKUDetailsCallback;
 
@@ -62,6 +63,10 @@ public class PoolakeyBridge {
 
     public void getSkuDetails(String type, String productIds, SKUDetailsCallback callback) {
         PoolakeyKotlinBridge.INSTANCE.getSkuDetails(type, Arrays.asList(productIds.split(",")), callback);
+    }
+
+    public void getOwnedProducts(String type, OwnedProductsCallback callback) {
+        PoolakeyKotlinBridge.INSTANCE.getOwnedProducts(type, callback);
     }
 
     public void purchase(String type, String productId, String payload, String dynamicPriceToken, PaymentCallback callback) {
