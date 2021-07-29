@@ -36,19 +36,27 @@ namespace Poolakey.Scripts
             poolakeyBridge.Call("disconnect");
         }
 
-        public async Task<SKUDetailsResult> GetSkuDetails(string productId, Action<SKUDetailsResult> onComplete = null, Type type = Type.inApp)
+        public async Task<SKUDetailsResult> GetSkuDetails(string productIds, Action<SKUDetailsResult> onComplete = null, Type type = Type.inApp)
         {
             var callback = new SKUDetailsCallbackProxy();
-            poolakeyBridge.Call("getSkuDetails", type.ToString(), productId, callback);
+            poolakeyBridge.Call("getSkuDetails", type.ToString(), productIds, callback);
             var result = (SKUDetailsResult)await callback.WaitForResult();
             onComplete?.Invoke(result);
             return result;
         }
+        public async Task<OwnedProductsResult> GetOwnedProducts(Type type = Type.inApp, Action<OwnedProductsResult> onComplete = null)
+        {
+            var callback = new OwnedProductsCallbackProxy();
+            poolakeyBridge.Call("getOwnedProducts", type.ToString(), callback);
+            var result = (OwnedProductsResult)await callback.WaitForResult();
+            onComplete?.Invoke(result);
+            return result;
+        }
 
-        public async Task<PurchaseResult> Purchase(string productId, Type type = Type.inApp, Action<PurchaseResult> onStart = null, Action<PurchaseResult> onComplete = null, string payload = "")
+        public async Task<PurchaseResult> Purchase(string productId, Type type = Type.inApp, Action<PurchaseResult> onStart = null, Action<PurchaseResult> onComplete = null, string payload = "", string dynamicPriceToken = null)
         {
             var callback = new PaymentCallbackProxy(onStart);
-            poolakeyBridge.Call("purchase", type.ToString(), productId, payload, callback);
+            poolakeyBridge.Call("purchase", type.ToString(), productId, payload, dynamicPriceToken, callback);
             var result = (PurchaseResult)await callback.WaitForResult();
             onComplete?.Invoke(result);
             return result;

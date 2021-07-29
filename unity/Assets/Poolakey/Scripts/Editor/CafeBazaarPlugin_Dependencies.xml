@@ -1,6 +1,6 @@
 <dependencies>
   <androidPackages>
-    <androidPackage spec="com.github.cafebazaar.Poolakey:poolakey:1.0.0-beta02">
+    <androidPackage spec="com.github.cafebazaar.Poolakey:poolakey:1.2.2">
       <repositories>
         <repository>https://jitpack.io</repository>
       </repositories>
