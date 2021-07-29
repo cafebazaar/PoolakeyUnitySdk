@@ -1,6 +1,6 @@
-<img src="https://github.com/manjav/PoolakeyUnitySdk/blob/main/images/Poolakey-unity.jpg?raw=true"/><br/>
+<img src="https://github.com/cafebazaar/PoolakeyUnitySdk/blob/main/images/Poolakey-unity.jpg?raw=true"/><br/>
 
-### [<center>...........  English Readme  ..........</center>](https://github.com/manjav/PoolakeyUnitySdk/blob/main/README.md)
+### [<center>...........  English Readme  ..........</center>](https://github.com/cafebazaar/PoolakeyUnitySdk/blob/main/README.md)
 <br/>
 
 ## <div dir="rtl">پولکی (کتابخانه جدید و ساده پرداخت درون‌برنامه کافه بازار)</div><br/>
@@ -13,4 +13,4 @@ var consumeResult = await payment.Consume(purchaseResult.data.purchaseToken);
 ```
 <br/><br/>
 
-## [<center>پیاده سازی گام به گام کتابخانه</center>](https://github.com/manjav/PoolakeyUnitySdk/wiki/%DB%B1.-%D9%86%D8%B5%D8%A8-SDK)
+## [<center>پیاده سازی گام به گام کتابخانه</center>](https://github.com/cafebazaar/PoolakeyUnitySdk/wiki/وارد-کردن-پکیج-یونیتی)
