@@ -45,10 +45,10 @@ namespace Poolakey.Scripts
             return result;
         }
 
-        public async Task<PurchaseResult> Purchase(string productId, Type type = Type.inApp, Action<PurchaseResult> onStart = null, Action<PurchaseResult> onComplete = null, string payload = "")
+        public async Task<PurchaseResult> Purchase(string productId, Type type = Type.inApp, Action<PurchaseResult> onStart = null, Action<PurchaseResult> onComplete = null, string payload = "", string dynamicPriceToken = null)
         {
             var callback = new PaymentCallbackProxy(onStart);
-            poolakeyBridge.Call("purchase", type.ToString(), productId, payload, callback);
+            poolakeyBridge.Call("purchase", type.ToString(), productId, payload, dynamicPriceToken, callback);
             var result = (PurchaseResult)await callback.WaitForResult();
             onComplete?.Invoke(result);
             return result;

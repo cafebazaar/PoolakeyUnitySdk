@@ -64,11 +64,11 @@ public class PoolakeyBridge {
         PoolakeyKotlinBridge.INSTANCE.getSkuDetails(type, Arrays.asList(productIds.split(",")), callback);
     }
 
-    public void purchase(String type, String productId, String payload, PaymentCallback callback) {
+    public void purchase(String type, String productId, String payload, String dynamicPriceToken, PaymentCallback callback) {
         PaymentActivity.Command cmd = PaymentActivity.Command.PurchaseProduct;
         if (!type.equalsIgnoreCase("inApp"))
             cmd = PaymentActivity.Command.Subscribe;
-        PoolakeyKotlinBridge.INSTANCE.startActivity(getCurrentActivity(), cmd, callback, productId, payload);
+        PoolakeyKotlinBridge.INSTANCE.startActivity(getCurrentActivity(), cmd, callback, productId, payload, dynamicPriceToken);
     }
 
     public void consume(String token, ConsumeCallback callback) {

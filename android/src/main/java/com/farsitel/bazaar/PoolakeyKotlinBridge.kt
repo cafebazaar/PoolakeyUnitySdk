@@ -64,7 +64,8 @@ object PoolakeyKotlinBridge {
         command: PaymentActivity.Command,
         callback: PaymentCallback,
         productId: String,
-        payload: String
+        payload: String?,
+        dynamicPriceToken: String?
     ) {
         if (connection.getState() != ConnectionState.Connected) {
             callback.onFailure("Connection not found.", "In order to purchasing, connect to Poolakey!")
@@ -75,7 +76,8 @@ object PoolakeyKotlinBridge {
             command,
             productId,
             callback,
-            payload
+            payload,
+            dynamicPriceToken
         )
     }
 
