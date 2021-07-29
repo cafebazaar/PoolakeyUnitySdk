@@ -40,19 +40,19 @@ object PoolakeyKotlinBridge {
     }
 
 
-    fun getSkuDetails(type: String, productId: String, callback: SKUDetailsCallback) {
+    fun getSkuDetails(type: String, productIds: List<String>, callback: SKUDetailsCallback) {
         if (connection.getState() != ConnectionState.Connected) {
             callback.onFailure("Connection not found.", "In order to getting ske details, connect to Poolakey!")
             return
         }
         when (type) {
             "inApp" ->
-                payment.getInAppSkuDetails(skuIds = listOf(productId)) {
+                payment.getInAppSkuDetails(skuIds = productIds) {
                     getSkuDetailsSucceed(callback::onSuccess)
                     getSkuDetailsFailed{ throwable -> callback.onFailure(throwable.message, throwable.stackTrace.joinToString { "\n" }) }
                 }
             else ->
-                payment.getSubscriptionSkuDetails(skuIds = listOf(productId)) {
+                payment.getSubscriptionSkuDetails(skuIds = productIds) {
                     getSkuDetailsSucceed(callback::onSuccess)
                     getSkuDetailsFailed{ throwable -> callback.onFailure(throwable.message, throwable.stackTrace.joinToString { "\n" }) }
                 }

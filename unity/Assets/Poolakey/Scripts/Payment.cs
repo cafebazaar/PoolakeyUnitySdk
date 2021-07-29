@@ -36,10 +36,10 @@ namespace Poolakey.Scripts
             poolakeyBridge.Call("disconnect");
         }
 
-        public async Task<SKUDetailsResult> GetSkuDetails(string productId, Action<SKUDetailsResult> onComplete = null, Type type = Type.inApp)
+        public async Task<SKUDetailsResult> GetSkuDetails(string productIds, Action<SKUDetailsResult> onComplete = null, Type type = Type.inApp)
         {
             var callback = new SKUDetailsCallbackProxy();
-            poolakeyBridge.Call("getSkuDetails", type.ToString(), productId, callback);
+            poolakeyBridge.Call("getSkuDetails", type.ToString(), productIds, callback);
             var result = (SKUDetailsResult)await callback.WaitForResult();
             onComplete?.Invoke(result);
             return result;

@@ -9,6 +9,7 @@ import com.farsitel.bazaar.callback.PaymentCallback;
 import com.farsitel.bazaar.callback.SKUDetailsCallback;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 
 public class PoolakeyBridge {
     public static final String TAG = "PoolakeyBridge";
@@ -59,8 +60,8 @@ public class PoolakeyBridge {
         PoolakeyKotlinBridge.INSTANCE.disconnect();
     }
 
-    public void getSkuDetails(String type, String productId, SKUDetailsCallback callback) {
-        PoolakeyKotlinBridge.INSTANCE.getSkuDetails(type, productId, callback);
+    public void getSkuDetails(String type, String productIds, SKUDetailsCallback callback) {
+        PoolakeyKotlinBridge.INSTANCE.getSkuDetails(type, Arrays.asList(productIds.split(",")), callback);
     }
 
     public void purchase(String type, String productId, String payload, PaymentCallback callback) {
