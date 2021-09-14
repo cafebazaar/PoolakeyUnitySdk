@@ -12,6 +12,10 @@ var connectionResult = await payment.Connect();
 var purchaseResult = await payment.Purchase("productID");
 var consumeResult = await payment.Consume(purchaseResult.data.purchaseToken);
 ```
-<br/><br/>
+><b>Attention!</b>
+>
+> Keep in mind, Poolay only works on Unity 2020 and above.
+
+<br/>
 ## How to use?
 For more information regarding the usage of Poolakey, please check out the [wiki](https://github.com/cafebazaar/PoolakeyUnitySdk/wiki) page.
