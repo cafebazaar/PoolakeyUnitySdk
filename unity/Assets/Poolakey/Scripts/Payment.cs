@@ -8,11 +8,14 @@ namespace Poolakey.Scripts
 {
     public class Payment
     {
-        public enum Type { inApp, subscription }
         PaymentConfiguration paymentConfiguration;
         private AndroidJavaObject poolakeyBridge;
+        private bool isAndroid;
+
         public Payment(PaymentConfiguration paymentConfiguration)
         {
+            isAndroid = Application.platform == RuntimePlatform.Android;
+            if (!isAndroid) return;
             this.paymentConfiguration = paymentConfiguration;
             using (var pluginClass = new AndroidJavaClass("com.farsitel.bazaar.PoolakeyBridge"))
             {
@@ -25,48 +28,93 @@ namespace Poolakey.Scripts
 
         public async Task<Result> Connect(Action<Result> onComplete = null)
         {
+            Result<bool> result = Result.GetDefault();
+            if (isAndroid)
+            {
             var callback = new ConnectionCallbackProxy();
             poolakeyBridge.Call("connect", paymentConfiguration.securityCheck.rsaPublicKey, callback);
-            var result = await callback.WaitForResult();
+                result = await callback.WaitForResult();
+            }
+            else
+            {
+                await Task.Delay(1);
+            }
             onComplete?.Invoke(result);
             return result;
         }
         public void Disconnect()
         {
+            if (isAndroid)
+            {
             poolakeyBridge.Call("disconnect");
+        }
         }
 
         public async Task<SKUDetailsResult> GetSkuDetails(string productIds, Action<SKUDetailsResult> onComplete = null, Type type = Type.inApp)
         {
+            var result = Result.GetDefault();
+            if (isAndroid)
+            {
             var callback = new SKUDetailsCallbackProxy();
             poolakeyBridge.Call("getSkuDetails", type.ToString(), productIds, callback);
-            var result = (SKUDetailsResult)await callback.WaitForResult();
+                result = await callback.WaitForResult();
+            }
+            else
+            {
+                await Task.Delay(1);
+            }
             onComplete?.Invoke(result);
             return result;
         }
+
         public async Task<OwnedProductsResult> GetOwnedProducts(Type type = Type.inApp, Action<OwnedProductsResult> onComplete = null)
         {
+            var result = Result.GetDefault();
+            if (isAndroid)
+            {
             var callback = new OwnedProductsCallbackProxy();
             poolakeyBridge.Call("getOwnedProducts", type.ToString(), callback);
-            var result = (OwnedProductsResult)await callback.WaitForResult();
+                result = await callback.WaitForResult();
+            }
+            else
+            {
+                await Task.Delay(1);
+            }
             onComplete?.Invoke(result);
             return result;
         }
 
         public async Task<PurchaseResult> Purchase(string productId, Type type = Type.inApp, Action<PurchaseResult> onStart = null, Action<PurchaseResult> onComplete = null, string payload = "", string dynamicPriceToken = null)
         {
+            var result = Result.GetDefault();
+            if (isAndroid)
+            {
             var callback = new PaymentCallbackProxy(onStart);
             poolakeyBridge.Call("purchase", type.ToString(), productId, payload, dynamicPriceToken, callback);
-            var result = (PurchaseResult)await callback.WaitForResult();
+                result = await callback.WaitForResult();
+            }
+            else
+            {
+                await Task.Delay(1);
+            }
             onComplete?.Invoke(result);
             return result;
         }
 
         public async Task<Result> Consume(string token, Action<Result> onComplete = null)
         {
+
+            Result<bool> result = Result.GetDefault();
+            if (isAndroid)
+            {
             var callback = new ConsumeCallbackProxy();
             poolakeyBridge.Call("consume", token, callback);
-            var result = await callback.WaitForResult();
+                result = await callback.WaitForResult();
+            }
+            else
+            {
+                await Task.Delay(1);
+            }
             onComplete?.Invoke(result);
             return result;
         }
