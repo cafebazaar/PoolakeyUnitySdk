@@ -67,12 +67,12 @@ namespace Poolakey.Scripts
             return result;
         }
 
-        public async Task<OwnedProductsResult> GetOwnedProducts(Type type = Type.inApp, Action<OwnedProductsResult> onComplete = null)
+        public async Task<PurchasesResult> GetPurchases(Type type = Type.inApp, Action<PurchasesResult> onComplete = null)
         {
             var result = Result.GetDefault();
             if (isAndroid)
             {
-            var callback = new OwnedProductsCallbackProxy();
+            var callback = new PurchasesCallbackProxy();
             poolakeyBridge.Call("getOwnedProducts", type.ToString(), callback);
                 result = await callback.WaitForResult();
             }

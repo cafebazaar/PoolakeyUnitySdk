@@ -65,8 +65,8 @@ public class PoolakeyBridge {
         PoolakeyKotlinBridge.INSTANCE.getSkuDetails(type, Arrays.asList(productIds.split(",")), callback);
     }
 
-    public void getOwnedProducts(String type, OwnedProductsCallback callback) {
-        PoolakeyKotlinBridge.INSTANCE.getOwnedProducts(type, callback);
+    public void getPurchases(String type, PurchasesCallback callback) {
+        PoolakeyKotlinBridge.INSTANCE.getPurchases(type, callback);
     }
 
     public void purchase(String type, String productId, String payload, String dynamicPriceToken, PaymentCallback callback) {

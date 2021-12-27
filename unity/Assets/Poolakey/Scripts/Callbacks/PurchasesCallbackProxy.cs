@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Poolakey.Scripts.Callbacks
 {
-    public class OwnedProductsCallbackProxy : BaseCallbackProxy
+    public class PurchasesCallbackProxy : BaseCallbackProxy
     {
-        public OwnedProductsCallbackProxy() : base("com.farsitel.bazaar.callback.OwnedProductsCallback"){}
+        public PurchasesCallbackProxy() : base("com.farsitel.bazaar.callback.PurchasesCallback") { }
 
         void onSuccess(AndroidJavaObject purchaseEntity)
         {
@@ -16,12 +16,14 @@ namespace Poolakey.Scripts.Callbacks
             {
                 list.Add(new PurchaseInfo(purchaseEntity.Call<AndroidJavaObject>("get", index)));
             }
-            result = new OwnedProductsResult(Status.Success, list, "Fetch Owned products completed.");
+            result = new PurchasesResult(Status.Success, "Get purchases completed.");
+            result.data = list;
         }
 
         void onFailure(string message, string stackTrace)
         {
-            result = new OwnedProductsResult(Status.Failure, null, message, stackTrace);
+            result = new PurchasesResult(Status.Failure, message, stackTrace);
+            result.data = new List<PurchaseInfo>();
         }
     }
 }

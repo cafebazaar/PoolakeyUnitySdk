@@ -56,7 +56,7 @@ object PoolakeyKotlinBridge {
         }
     }
 
-    fun getOwnedProducts(type:String, callback: OwnedProductsCallback) {
+    fun getPurchases(type: String, callback: PurchasesCallback) {
         if (connection.getState() != ConnectionState.Connected) {
             callback.onFailure("Connection not found.", "In order to getting purchases, connect to Poolakey!")
             return
