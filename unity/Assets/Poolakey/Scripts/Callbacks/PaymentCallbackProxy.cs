@@ -3,34 +3,37 @@ using Poolakey.Scripts.Data;
 
 namespace Poolakey.Scripts.Callbacks
 {
-    public class PaymentCallbackProxy : BaseCallbackProxy
+    public class PaymentCallbackProxy : BaseCallbackProxy<PurchaseInfo>
     {
-        private Action<PurchaseResult> onStartAction;
+        private Action<Result<PurchaseInfo>> onStartAction;
 
-        public PaymentCallbackProxy(Action<PurchaseResult> onStartAction) : base("com.farsitel.bazaar.callback.PaymentCallback")
+        public PaymentCallbackProxy(Action<Result<PurchaseInfo>> onStartAction) : base("com.farsitel.bazaar.callback.PaymentCallback")
         {
             this.onStartAction = onStartAction;
         }
 
         void onStart()
         {
-            onStartAction?.Invoke(new PurchaseResult(Status.Start, null, "Purchase flow started."));
+            onStartAction?.Invoke(new Result<PurchaseInfo>(Status.Start, "Purchase flow started."));
+            result.data = new PurchaseInfo();
         }
 
         void onCancel()
         {
-            result = new PurchaseResult(Status.Cancel, null, "Purchase flow canceled.");
+            result = new Result<PurchaseInfo>(Status.Cancel, null, "Purchase flow canceled.");
+            result.data = new PurchaseInfo();
         }
 
         void onSuccess(string orderId, string purchaseToken, string payload, string packageName, int purchaseState, long purchaseTime, string productId, string originalJson, string dataSignature)
         {
-            var data = new PurchaseInfo { orderId = orderId, purchaseToken = purchaseToken, payload = payload, packageName = packageName, purchaseState = (PurchaseInfo.State)purchaseState, purchaseTime = purchaseTime, productId = productId, originalJson = originalJson, dataSignature = dataSignature };
-            result = new PurchaseResult(Status.Success, data, "Purchase Succeed.");
+            result = new Result<PurchaseInfo>(Status.Success, "Purchase Succeed.");
+            result.data = new PurchaseInfo { orderId = orderId, purchaseToken = purchaseToken, payload = payload, packageName = packageName, purchaseState = (PurchaseInfo.State)purchaseState, purchaseTime = purchaseTime, productId = productId, originalJson = originalJson, dataSignature = dataSignature };
         }
 
         void onFailure(string message, string stackTrace)
         {
-            result = new PurchaseResult(Status.Failure, null, message, stackTrace);
+            result = new Result<PurchaseInfo>(Status.Failure, message, stackTrace);
+            result.data = new PurchaseInfo();
         }
     }
 }

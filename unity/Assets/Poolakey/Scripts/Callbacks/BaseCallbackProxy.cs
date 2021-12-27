@@ -4,16 +4,16 @@ using UnityEngine;
 
 namespace Poolakey.Scripts.Callbacks
 {
-    public class BaseCallbackProxy : AndroidJavaProxy
+    public class BaseCallbackProxy<T> : AndroidJavaProxy
     {
-        protected Result result;
+        protected Result<T> result;
         public BaseCallbackProxy(string address) : base(address) { }
 
-        public async Task<Result> WaitForResult()
+        public async Task<Result<T>> WaitForResult()
         {
-            while (result == null)
+            while (result == null || result.data == null)
                 await Task.Delay(100);
-            return result;
+            return (Result<T>)result;
         }
     }
 }

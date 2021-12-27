@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Poolakey.Scripts.Callbacks
 {
-    public class SKUDetailsCallbackProxy : BaseCallbackProxy
+    public class SKUDetailsCallbackProxy : BaseCallbackProxy<List<SKUDetails>>
     {
         public SKUDetailsCallbackProxy() : base("com.farsitel.bazaar.callback.SKUDetailsCallback"){}
 
@@ -16,12 +16,14 @@ namespace Poolakey.Scripts.Callbacks
             {
                 list.Add(new SKUDetails(purchaseEntity.Call<AndroidJavaObject>("get", index)));
             }
-            result = new SKUDetailsResult(Status.Success, list, "Fetch SKU details completed.");
+            result = new Result<List<SKUDetails>>(Status.Success, "Fetch SKU details completed.");
+            result.data = list;
         }
 
         void onFailure(string message, string stackTrace)
         {
-            result = new SKUDetailsResult(Status.Failure, null, message, stackTrace);
+            result = new Result<List<SKUDetails>>(Status.Failure, message, stackTrace);
+            result.data = new List<SKUDetails>();
         }
     }
 }

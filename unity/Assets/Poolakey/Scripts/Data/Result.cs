@@ -1,13 +1,16 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Poolakey.Scripts.Data
 {
     public enum Status { Success, Start, Cancel, Disconnect, Failure, Unknown }
-    public class Result
+    public class Result<T>
     {
         public Status status;
         public string message;
         public string stackTrace;
+        public T data;
 
         public Result(Status status, string message, string stackTrace = null)
         {
@@ -15,32 +18,43 @@ namespace Poolakey.Scripts.Data
             this.message = message;
             this.stackTrace = stackTrace;
         }
-    }
 
-    public class SKUDetailsResult : Result
-    {
-        public List<SKUDetails> data;
-        public SKUDetailsResult(Status status, List<SKUDetails> data, string message, string stackTrace = null) : base(status, message, stackTrace) 
+        public static Result<T> GetDefault()
         {
-            this.data = data;
+            return new Result<T>(Status.Failure, "Poolakey payment only supports Android platform!");
         }
-    }
-    
-    public class PurchasesResult : Result
-    {
-        public List<PurchaseInfo> data;
-        public PurchasesResult(Status status, List<PurchaseInfo> data, string message, string stackTrace = null) : base(status, message, stackTrace) 
-        {
-            this.data = data;
-        }
-    }
 
-    public class PurchaseResult : Result
-    {
-        public PurchaseInfo data;
-        public PurchaseResult(Status status, PurchaseInfo data, string message, string stackTrace = null) : base(status, message, stackTrace) 
+        public new string ToString()
         {
-            this.data = data;
+            var str = $"status: {status}";
+            if (!string.IsNullOrEmpty(message))
+            {
+                str += $", message: {message}";
+            }
+            if (!string.IsNullOrEmpty(stackTrace))
+            {
+                str += $", stackTrace: {stackTrace}";
+            }
+            if (data == null)
+            {
+                return str;
+            }
+            
+            str += $", data: [ ";
+            if (data is IList)
+            {
+                var list = (IList)data;
+                foreach (var item in list)
+                {
+                    str += $"{item.ToString()}\n";
+                }
+            }
+            else
+            {
+                str += $"{data.ToString()}";
+            }
+
+            return str + " ]";
         }
     }
 }
