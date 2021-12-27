@@ -3,13 +3,13 @@ namespace Poolakey.Scripts.Data
 {
     public class PurchaseInfo
     {
-        public enum State { Purchased = 0, Refunded = 1 }
+        public enum State { Purchased = 0, Refunded = 1, Consumed = 2 }
         public string orderId, purchaseToken, payload, packageName, productId, originalJson, dataSignature;
         public State purchaseState;
         public long purchaseTime;
         private AndroidJavaObject androidJavaObject;
 
-        public PurchaseInfo(){}
+        public PurchaseInfo() { }
         public PurchaseInfo(AndroidJavaObject entity)
         {
             this.orderId = entity.Get<string>("orderId");

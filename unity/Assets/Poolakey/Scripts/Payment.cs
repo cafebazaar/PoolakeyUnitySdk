@@ -32,8 +32,8 @@ namespace Poolakey.Scripts
             Result<bool> result = Result<bool>.GetDefault();
             if (isAndroid)
             {
-            var callback = new ConnectionCallbackProxy();
-            poolakeyBridge.Call("connect", paymentConfiguration.securityCheck.rsaPublicKey, callback);
+                var callback = new ConnectionCallbackProxy();
+                poolakeyBridge.Call("connect", paymentConfiguration.securityCheck.rsaPublicKey, callback);
                 result = await callback.WaitForResult();
             }
             else
@@ -47,17 +47,17 @@ namespace Poolakey.Scripts
         {
             if (isAndroid)
             {
-            poolakeyBridge.Call("disconnect");
-        }
+                poolakeyBridge.Call("disconnect");
+            }
         }
 
-        public async Task<Result<List<SKUDetails>>> GetSkuDetails(string productIds, SKUDetails.Type type = SKUDetails.Type.inApp, Action<Result<List<SKUDetails>>> onComplete = null)
+        public async Task<Result<List<SKUDetails>>> GetSkuDetails(string productIds, SKUDetails.Type type = SKUDetails.Type.all, Action<Result<List<SKUDetails>>> onComplete = null)
         {
             var result = Result<List<SKUDetails>>.GetDefault();
             if (isAndroid)
             {
-            var callback = new SKUDetailsCallbackProxy();
-            poolakeyBridge.Call("getSkuDetails", type.ToString(), productIds, callback);
+                var callback = new SKUDetailsCallbackProxy();
+                poolakeyBridge.Call("getSkuDetails", type.ToString(), productIds, callback);
                 result = await callback.WaitForResult();
             }
             else
@@ -68,12 +68,12 @@ namespace Poolakey.Scripts
             return result;
         }
 
-        public async Task<Result<List<PurchaseInfo>>> GetPurchases(SKUDetails.Type type = SKUDetails.Type.inApp, Action<Result<List<PurchaseInfo>>> onComplete = null)
+        public async Task<Result<List<PurchaseInfo>>> GetPurchases(SKUDetails.Type type = SKUDetails.Type.all, Action<Result<List<PurchaseInfo>>> onComplete = null)
         {
             var result = Result<List<PurchaseInfo>>.GetDefault();
             if (isAndroid)
             {
-            var callback = new PurchasesCallbackProxy();
+                var callback = new PurchasesCallbackProxy();
                 poolakeyBridge.Call("getPurchases", type.ToString(), callback);
                 result = await callback.WaitForResult();
             }
@@ -90,8 +90,8 @@ namespace Poolakey.Scripts
             var result = Result<PurchaseInfo>.GetDefault();
             if (isAndroid)
             {
-            var callback = new PaymentCallbackProxy(onStart);
-            poolakeyBridge.Call("purchase", type.ToString(), productId, payload, dynamicPriceToken, callback);
+                var callback = new PaymentCallbackProxy(onStart);
+                poolakeyBridge.Call("purchase", type.ToString(), productId, payload, dynamicPriceToken, callback);
                 result = await callback.WaitForResult();
             }
             else
@@ -108,8 +108,8 @@ namespace Poolakey.Scripts
             Result<bool> result = Result<bool>.GetDefault();
             if (isAndroid)
             {
-            var callback = new ConsumeCallbackProxy();
-            poolakeyBridge.Call("consume", token, callback);
+                var callback = new ConsumeCallbackProxy();
+                poolakeyBridge.Call("consume", token, callback);
                 result = await callback.WaitForResult();
             }
             else
