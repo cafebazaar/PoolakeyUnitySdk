@@ -17,12 +17,12 @@ public class PoolakeyExample : MonoBehaviour
     private Dictionary<string, ShopItem> shopItems;
     void Start()
     {
-        Log("Poolakey Plugin Version: " + PluginVersion.VersionString);
 
         // TODO: SecurityCheck.Enable("Your RSA key");
         SecurityCheck securityCheck = SecurityCheck.Disable();
         PaymentConfiguration paymentConfiguration = new PaymentConfiguration(securityCheck);
         payment = new Payment(paymentConfiguration);
+        Log("Poolakey Plugin Version: " + payment.version);
 
         CreateShopItems();
         Connect();

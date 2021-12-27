@@ -5,8 +5,8 @@ import android.util.Log;
 
 import com.farsitel.bazaar.callback.ConnectionCallback;
 import com.farsitel.bazaar.callback.ConsumeCallback;
-import com.farsitel.bazaar.callback.OwnedProductsCallback;
 import com.farsitel.bazaar.callback.PaymentCallback;
+import com.farsitel.bazaar.callback.PurchasesCallback;
 import com.farsitel.bazaar.callback.SKUDetailsCallback;
 
 import java.lang.reflect.Field;
@@ -51,6 +51,10 @@ public class PoolakeyBridge {
                 Log.i(TAG, "Error getting currentActivity: " + e.getMessage());
             }
         return null;
+    }
+
+    public String getVersion() {
+        return BuildConfig.POOLAKEY_VERSION;
     }
 
     public void connect(String rsaPublicKey, ConnectionCallback callback) {

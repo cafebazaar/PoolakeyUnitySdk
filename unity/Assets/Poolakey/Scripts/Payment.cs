@@ -12,6 +12,7 @@ namespace Poolakey.Scripts
         PaymentConfiguration paymentConfiguration;
         private AndroidJavaObject poolakeyBridge;
         private bool isAndroid;
+        public string version;
 
         public Payment(PaymentConfiguration paymentConfiguration)
         {
@@ -23,6 +24,7 @@ namespace Poolakey.Scripts
                 if (pluginClass != null)
                 {
                     poolakeyBridge = pluginClass.CallStatic<AndroidJavaObject>("getInstance");
+                    version = poolakeyBridge.Call<string>("getVersion");
                 }
             }
         }
