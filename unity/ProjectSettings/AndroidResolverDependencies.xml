@@ -1,6 +1,6 @@
 <dependencies>
   <packages>
-    <package>com.github.cafebazaar.Poolakey:poolakey:1.0.0-beta02</package>
+    <package>com.github.cafebazaar.Poolakey:poolakey:1.2.2</package>
     <package>org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.20</package>
   </packages>
   <files>
@@ -22,7 +22,7 @@
     <file>Assets/Plugins/Android/androidx.savedstate.savedstate-1.0.0.aar</file>
     <file>Assets/Plugins/Android/androidx.versionedparcelable.versionedparcelable-1.1.0.aar</file>
     <file>Assets/Plugins/Android/androidx.viewpager.viewpager-1.0.0.aar</file>
-    <file>Assets/Plugins/Android/com.github.cafebazaar.Poolakey.poolakey-1.1.0-beta02.aar</file>
+    <file>Assets/Plugins/Android/com.github.cafebazaar.Poolakey.poolakey-1.2.2.aar</file>
     <file>Assets/Plugins/Android/org.jetbrains.annotations-13.0.jar</file>
     <file>Assets/Plugins/Android/org.jetbrains.kotlin.kotlin-stdlib-1.4.20.jar</file>
     <file>Assets/Plugins/Android/org.jetbrains.kotlin.kotlin-stdlib-common-1.4.20.jar</file>
