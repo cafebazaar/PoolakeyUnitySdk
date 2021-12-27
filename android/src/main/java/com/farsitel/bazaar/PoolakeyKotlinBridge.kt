@@ -22,7 +22,11 @@ object PoolakeyKotlinBridge {
         val paymentConfig = PaymentConfiguration(localSecurityCheck = securityCheck)
         payment = Payment(context = context, config = paymentConfig)
         connection = payment.connect {
-            connectionFailed{ throwable -> callback.onFailure(throwable.message, throwable.stackTrace.joinToString { "\n" }) }
+            connectionFailed { throwable ->
+                callback.onFailure(
+                    throwable.message,
+                    throwable.stackTrace.joinToString { "\n" })
+            }
             connectionSucceed {
                 callback.onConnect()
             }
@@ -39,26 +43,40 @@ object PoolakeyKotlinBridge {
 
     fun getSkuDetails(type: String, productIds: List<String>, callback: SKUDetailsCallback) {
         if (connection.getState() != ConnectionState.Connected) {
-            callback.onFailure("Connection not found.", "In order to getting ske details, connect to Poolakey!")
+            callback.onFailure(
+                "Connection not found.",
+                "In order to getting ske details, connect to Poolakey!"
+            )
             return
         }
         when (type) {
             "inApp" ->
                 payment.getInAppSkuDetails(skuIds = productIds) {
                     getSkuDetailsSucceed(callback::onSuccess)
-                    getSkuDetailsFailed{ throwable -> callback.onFailure(throwable.message, throwable.stackTrace.joinToString { "\n" }) }
+                    getSkuDetailsFailed { throwable ->
+                        callback.onFailure(
+                            throwable.message,
+                            throwable.stackTrace.joinToString { "\n" })
+                    }
                 }
             else ->
                 payment.getSubscriptionSkuDetails(skuIds = productIds) {
                     getSkuDetailsSucceed(callback::onSuccess)
-                    getSkuDetailsFailed{ throwable -> callback.onFailure(throwable.message, throwable.stackTrace.joinToString { "\n" }) }
+                    getSkuDetailsFailed { throwable ->
+                        callback.onFailure(
+                            throwable.message,
+                            throwable.stackTrace.joinToString { "\n" })
+                    }
                 }
         }
     }
 
     fun getPurchases(type: String, callback: PurchasesCallback) {
         if (connection.getState() != ConnectionState.Connected) {
-            callback.onFailure("Connection not found.", "In order to getting purchases, connect to Poolakey!")
+            callback.onFailure(
+                "Connection not found.",
+                "In order to getting purchases, connect to Poolakey!"
+            )
             return
         }
         when (type) {
@@ -87,11 +105,16 @@ object PoolakeyKotlinBridge {
         command: PaymentActivity.Command,
         callback: PaymentCallback,
         productId: String,
-        payload: String?,
-        dynamicPriceToken: String?
+        payload: String
+        ?,
+        dynamicPriceToken: String
+        ?
     ) {
         if (connection.getState() != ConnectionState.Connected) {
-            callback.onFailure("Connection not found.", "In order to purchasing, connect to Poolakey!")
+            callback.onFailure(
+                "Connection not found.",
+                "In order to purchasing, connect to Poolakey!"
+            )
             return
         }
         PaymentActivity.start(
@@ -106,12 +129,19 @@ object PoolakeyKotlinBridge {
 
     fun consume(purchaseToken: String, callback: ConsumeCallback) {
         if (connection.getState() != ConnectionState.Connected) {
-            callback.onFailure("Connection not found.", "In order to consumption, connect to Poolakey!")
+            callback.onFailure(
+                "Connection not found.",
+                "In order to consumption, connect to Poolakey!"
+            )
             return
         }
         payment.consumeProduct(purchaseToken) {
             consumeSucceed(callback::onSuccess)
-            consumeFailed { throwable -> callback.onFailure(throwable.message, throwable.stackTrace.joinToString { "\n" }) }
+            consumeFailed { throwable ->
+                callback.onFailure(
+                    throwable.message,
+                    throwable.stackTrace.joinToString { "\n" })
+            }
         }
     }
 }
