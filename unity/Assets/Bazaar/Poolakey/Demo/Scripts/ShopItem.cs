@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
-using Poolakey.Scripts.Data;
 using UnityEngine.UI;
 using RTLTMPro;
+using Bazaar.Poolakey.Data;
 
 public class ShopItem : MonoBehaviour
 {

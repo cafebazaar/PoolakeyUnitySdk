@@ -2,10 +2,10 @@ using UnityEngine;
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Poolakey.Scripts.Data;
-using Poolakey.Scripts.Callbacks;
+using Bazaar.Poolakey.Data;
+using Bazaar.Poolakey.Callbacks;
 
-namespace Poolakey.Scripts
+namespace Bazaar.Poolakey
 {
     public class Payment
     {

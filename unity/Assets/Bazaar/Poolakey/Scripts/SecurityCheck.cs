@@ -1,4 +1,4 @@
-namespace Poolakey.Scripts
+namespace Bazaar.Poolakey
 {
     public class SecurityCheck
     {

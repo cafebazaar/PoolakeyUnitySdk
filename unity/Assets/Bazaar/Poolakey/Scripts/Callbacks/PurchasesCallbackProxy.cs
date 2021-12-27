@@ -1,8 +1,8 @@
-using System.Collections.Generic;
-using Poolakey.Scripts.Data;
 using UnityEngine;
+using System.Collections.Generic;
+using Bazaar.Poolakey.Data;
 
-namespace Poolakey.Scripts.Callbacks
+namespace Bazaar.Poolakey.Callbacks
 {
     public class PurchasesCallbackProxy : BaseCallbackProxy<List<PurchaseInfo>>
     {

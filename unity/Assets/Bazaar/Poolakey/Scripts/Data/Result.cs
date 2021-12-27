@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Poolakey.Scripts.Data
+namespace Bazaar.Poolakey.Data
 {
     public enum Status { Success, Start, Cancel, Disconnect, Failure, Unknown }
     public class Result<T>

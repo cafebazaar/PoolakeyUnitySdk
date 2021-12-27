@@ -1,8 +1,8 @@
-using System.Threading.Tasks;
-using Poolakey.Scripts.Data;
 using UnityEngine;
+using System.Threading.Tasks;
+using Bazaar.Poolakey.Data;
 
-namespace Poolakey.Scripts.Callbacks
+namespace Bazaar.Poolakey.Callbacks
 {
     public class BaseCallbackProxy<T> : AndroidJavaProxy
     {

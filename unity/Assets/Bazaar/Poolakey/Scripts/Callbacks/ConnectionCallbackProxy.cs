@@ -1,6 +1,6 @@
-using Poolakey.Scripts.Data;
+using Bazaar.Poolakey.Data;
 
-namespace Poolakey.Scripts.Callbacks
+namespace Bazaar.Poolakey.Callbacks
 {
     public class ConnectionCallbackProxy : BaseCallbackProxy<bool>
     {

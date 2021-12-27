@@ -1,10 +1,9 @@
-﻿using UnityEngine;
-using Poolakey.Scripts;
-using Poolakey;
-using Poolakey.Scripts.Data;
+﻿using System;
 using System.Collections.Generic;
-using System;
+using UnityEngine;
 using RTLTMPro;
+using Bazaar.Poolakey;
+using Bazaar.Poolakey.Data;
 
 public class PoolakeyExample : MonoBehaviour
 {

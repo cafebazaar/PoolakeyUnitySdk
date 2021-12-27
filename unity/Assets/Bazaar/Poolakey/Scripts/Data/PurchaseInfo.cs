@@ -1,5 +1,5 @@
 using UnityEngine;
-namespace Poolakey.Scripts.Data
+namespace Bazaar.Poolakey.Data
 {
     public class PurchaseInfo
     {
