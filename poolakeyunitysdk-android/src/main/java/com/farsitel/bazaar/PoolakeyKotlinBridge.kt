@@ -8,6 +8,8 @@ import ir.cafebazaar.poolakey.ConnectionState
 import ir.cafebazaar.poolakey.Payment
 import ir.cafebazaar.poolakey.config.PaymentConfiguration
 import ir.cafebazaar.poolakey.config.SecurityCheck
+import ir.cafebazaar.poolakey.entity.PurchaseInfo
+import ir.cafebazaar.poolakey.entity.SkuDetails
 
 object PoolakeyKotlinBridge {
     lateinit var payment: Payment
@@ -50,7 +52,33 @@ object PoolakeyKotlinBridge {
             return
         }
         when (type) {
-            "inApp" ->
+//            "all" -> {
+//                val skuDetailsList: MutableList<SkuDetails> = mutableListOf()
+//                payment.getInAppSkuDetails(productIds) {
+//                    getSkuDetailsSucceed { list ->
+//                        skuDetailsList.addAll(list)
+//                        payment.getSubscriptionSkuDetails(productIds) {
+//                            getSkuDetailsSucceed { list ->
+//                                skuDetailsList.addAll(list)
+//                                callback.onSuccess(skuDetailsList)
+//                            }
+//                            getSkuDetailsFailed { throwable ->
+//                                callback.onFailure(
+//                                    throwable.message,
+//                                    throwable.stackTrace.joinToString { "\n" })
+//                            }
+//
+//                        }
+//                        getSkuDetailsFailed { throwable ->
+//                            callback.onFailure(
+//                                throwable.message,
+//                                throwable.stackTrace.joinToString { "\n" })
+//
+//                        }
+//                    }
+//                }
+//            }
+            "inApp", "all" ->
                 payment.getInAppSkuDetails(skuIds = productIds) {
                     getSkuDetailsSucceed(callback::onSuccess)
                     getSkuDetailsFailed { throwable ->
@@ -80,6 +108,30 @@ object PoolakeyKotlinBridge {
             return
         }
         when (type) {
+            "all" -> {
+                val purchasesList: MutableList<PurchaseInfo> = mutableListOf()
+                payment.getPurchasedProducts {
+                    querySucceed { list ->
+                        purchasesList.addAll(list)
+                        payment.getSubscribedProducts {
+                            querySucceed { list ->
+                                purchasesList.addAll(list)
+                                callback.onSuccess(purchasesList)
+                            }
+                            queryFailed { throwable ->
+                                callback.onFailure(
+                                    throwable.message,
+                                    throwable.stackTrace.joinToString { "\n" })
+                            }
+                        }
+                        queryFailed { throwable ->
+                            callback.onFailure(
+                                throwable.message,
+                                throwable.stackTrace.joinToString { "\n" })
+                        }
+                    }
+                }
+            }
             "inApp" -> payment.getPurchasedProducts {
                 querySucceed(callback::onSuccess)
                 queryFailed { throwable ->
