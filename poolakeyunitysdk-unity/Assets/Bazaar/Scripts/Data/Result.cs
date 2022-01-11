@@ -1,10 +1,21 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 
-namespace Bazaar.Poolakey.Data
+namespace Bazaar.Data
 {
-    public enum Status { Success, Start, Cancel, Disconnect, Failure, Unknown }
+    public enum Status
+    {
+        Unknown = -10,
+        Canceled = -2,
+        Failure = -1,
+
+        Success = 0,
+        Disconnected = 1,
+        LoginBazaar = 3,
+        UpdateBazaar = 4,
+        InstallBazaar = 5,
+        Started = 11,
+    }
+    
     public class Result<T>
     {
         public Status status;
@@ -21,7 +32,7 @@ namespace Bazaar.Poolakey.Data
 
         public static Result<T> GetDefault()
         {
-            return new Result<T>(Status.Failure, "Poolakey payment only supports Android platform!");
+            return new Result<T>(Status.Failure, "Bazaar plugins only support Android platform!");
         }
 
         public new string ToString()
@@ -39,7 +50,7 @@ namespace Bazaar.Poolakey.Data
             {
                 return str;
             }
-            
+
             str += $", data: [ ";
             if (data is IList)
             {

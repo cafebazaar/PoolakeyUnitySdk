@@ -6,7 +6,7 @@ using Bazaar.Poolakey.Data;
 
 public class ShopItem : MonoBehaviour
 {
-    [SerializeField] private UnityEngine.UI.Image iconImage;
+    [SerializeField] private Image iconImage;
     [SerializeField] private RTLTextMeshPro titleText;
     [SerializeField] private RTLTextMeshPro descriptionText;
     [SerializeField] private RTLTextMeshPro priceText;
@@ -15,14 +15,14 @@ public class ShopItem : MonoBehaviour
     private PurchaseInfo purchaseInfo;
     private Action<SKUDetails> onSelect;
     private Action<PurchaseInfo> onDelete;
-    private UnityEngine.UI.Button button;
+    private Button button;
 
     public ShopItem Init(Product product, Action<SKUDetails> onSelect, Action<PurchaseInfo> onDelete)
     {
         this.onSelect = onSelect;
         this.onDelete = onDelete;
         iconImage.sprite = product.icon;
-        button = GetComponent<UnityEngine.UI.Button>();
+        button = GetComponent<Button>();
         button.interactable = false;
         return this;
     }

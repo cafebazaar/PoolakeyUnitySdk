@@ -1,32 +1,18 @@
-using UnityEngine;
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Bazaar.Poolakey.Data;
 using Bazaar.Poolakey.Callbacks;
+using Bazaar.Data;
 
 namespace Bazaar.Poolakey
 {
-    public class Payment
+    public class Payment : Bridge
     {
         PaymentConfiguration paymentConfiguration;
-        private AndroidJavaObject poolakeyBridge;
-        private bool isAndroid;
-        public string version;
-
-        public Payment(PaymentConfiguration paymentConfiguration)
+        public Payment(PaymentConfiguration paymentConfiguration) : base("com.farsitel.bazaar.PoolakeyBridge")
         {
-            isAndroid = Application.platform == RuntimePlatform.Android;
-            if (!isAndroid) return;
             this.paymentConfiguration = paymentConfiguration;
-            using (var pluginClass = new AndroidJavaClass("com.farsitel.bazaar.PoolakeyBridge"))
-            {
-                if (pluginClass != null)
-                {
-                    poolakeyBridge = pluginClass.CallStatic<AndroidJavaObject>("getInstance");
-                    version = poolakeyBridge.Call<string>("getVersion");
-                }
-            }
         }
 
         public async Task<Result<bool>> Connect(Action<Result<bool>> onComplete = null)
@@ -35,7 +21,7 @@ namespace Bazaar.Poolakey
             if (isAndroid)
             {
                 var callback = new ConnectionCallbackProxy();
-                poolakeyBridge.Call("connect", paymentConfiguration.securityCheck.rsaPublicKey, callback);
+                bridge.Call("connect", paymentConfiguration.securityCheck.rsaPublicKey, callback);
                 result = await callback.WaitForResult();
             }
             else
@@ -49,7 +35,7 @@ namespace Bazaar.Poolakey
         {
             if (isAndroid)
             {
-                poolakeyBridge.Call("disconnect");
+                bridge.Call("disconnect");
             }
         }
 
@@ -59,7 +45,7 @@ namespace Bazaar.Poolakey
             if (isAndroid)
             {
                 var callback = new SKUDetailsCallbackProxy();
-                poolakeyBridge.Call("getSkuDetails", type.ToString(), productIds, callback);
+                bridge.Call("getSkuDetails", type.ToString(), productIds, callback);
                 result = await callback.WaitForResult();
             }
             else
@@ -76,7 +62,7 @@ namespace Bazaar.Poolakey
             if (isAndroid)
             {
                 var callback = new PurchasesCallbackProxy();
-                poolakeyBridge.Call("getPurchases", type.ToString(), callback);
+                bridge.Call("getPurchases", type.ToString(), callback);
                 result = await callback.WaitForResult();
             }
             else
@@ -93,7 +79,7 @@ namespace Bazaar.Poolakey
             if (isAndroid)
             {
                 var callback = new PaymentCallbackProxy(onStart);
-                poolakeyBridge.Call("purchase", type.ToString(), productId, payload, dynamicPriceToken, callback);
+                bridge.Call("purchase", type.ToString(), productId, payload, dynamicPriceToken, callback);
                 result = await callback.WaitForResult();
             }
             else
@@ -111,7 +97,7 @@ namespace Bazaar.Poolakey
             if (isAndroid)
             {
                 var callback = new ConsumeCallbackProxy();
-                poolakeyBridge.Call("consume", token, callback);
+                bridge.Call("consume", token, callback);
                 result = await callback.WaitForResult();
             }
             else

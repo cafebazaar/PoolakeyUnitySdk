@@ -1,21 +1,20 @@
-using Bazaar.Poolakey.Data;
+using Bazaar.Data;
+using Bazaar.Callbacks;
 
 namespace Bazaar.Poolakey.Callbacks
 {
-    public class ConsumeCallbackProxy : BaseCallbackProxy<bool>
+    public class ConsumeCallbackProxy : CallbackProxy<bool>
     {
         public ConsumeCallbackProxy() : base("com.farsitel.bazaar.callback.ConsumeCallback") { }
 
         void onSuccess()
         {
-            result = new Result<bool>(Status.Success, "Consumption Succeed.");
-            result.data = true;
+            result = new Result<bool>(Status.Success, "Consumption Succeed.") { data = true };
         }
 
         void onFailure(string message, string stackTrace)
         {
-            result = new Result<bool>(Status.Failure, message, stackTrace);
-            result.data = false;
+            result = new Result<bool>(Status.Failure, message, stackTrace) { data = false };
         }
     }
 }

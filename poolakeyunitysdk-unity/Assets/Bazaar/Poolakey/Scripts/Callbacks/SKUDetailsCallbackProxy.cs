@@ -1,12 +1,14 @@
 using UnityEngine;
-using System.Collections.Generic;
+using Bazaar.Data;
+using Bazaar.Callbacks;
 using Bazaar.Poolakey.Data;
+using System.Collections.Generic;
 
 namespace Bazaar.Poolakey.Callbacks
 {
-    public class SKUDetailsCallbackProxy : BaseCallbackProxy<List<SKUDetails>>
+    public class SKUDetailsCallbackProxy : CallbackProxy<List<SKUDetails>>
     {
-        public SKUDetailsCallbackProxy() : base("com.farsitel.bazaar.callback.SKUDetailsCallback"){}
+        public SKUDetailsCallbackProxy() : base("com.farsitel.bazaar.callback.SKUDetailsCallback") { }
 
         void onSuccess(AndroidJavaObject purchaseEntity)
         {
@@ -16,14 +18,12 @@ namespace Bazaar.Poolakey.Callbacks
             {
                 list.Add(new SKUDetails(purchaseEntity.Call<AndroidJavaObject>("get", index)));
             }
-            result = new Result<List<SKUDetails>>(Status.Success, "Fetch SKU details completed.");
-            result.data = list;
+            result = new Result<List<SKUDetails>>(Status.Success, "Fetch SKU details completed.") { data = list };
         }
 
         void onFailure(string message, string stackTrace)
         {
             result = new Result<List<SKUDetails>>(Status.Failure, message, stackTrace);
-            result.data = new List<SKUDetails>();
         }
     }
 }
