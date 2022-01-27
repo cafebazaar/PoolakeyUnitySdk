@@ -2,6 +2,8 @@ package com.farsitel.bazaar
 
 import android.app.Activity
 import android.content.Context
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.farsitel.bazaar.callback.*
 import ir.cafebazaar.poolakey.Connection
 import ir.cafebazaar.poolakey.ConnectionState
@@ -10,6 +12,7 @@ import ir.cafebazaar.poolakey.config.PaymentConfiguration
 import ir.cafebazaar.poolakey.config.SecurityCheck
 import ir.cafebazaar.poolakey.entity.PurchaseInfo
 import ir.cafebazaar.poolakey.entity.SkuDetails
+import ir.cafebazaar.poolakey.request.PurchaseRequest
 
 object PoolakeyKotlinBridge {
     lateinit var payment: Payment
@@ -152,31 +155,47 @@ object PoolakeyKotlinBridge {
         }
     }
 
-    fun startActivity(
-        activity: Activity,
-        command: PaymentActivity.Command,
-        callback: PaymentCallback,
+    fun purchase(
+        activity: AppCompatActivity,
+        type: String,
         productId: String,
-        payload: String
-        ?,
-        dynamicPriceToken: String
-        ?
+        payload: String,
+        dynamicPriceToken: String,
+        callback: PaymentCallback
     ) {
-        if (connection.getState() != ConnectionState.Connected) {
-            callback.onFailure(
-                "Connection not found.",
-                "In order to purchasing, connect to Poolakey!"
-            )
-            return
+        payment.purchaseProduct(
+            registry = activity.activityResultRegistry,
+            request = PurchaseRequest(productId!!, payload, dynamicPriceToken)
+        ) {
+            purchaseFlowBegan {
+                callback.onStart();
+            }
+            failedToBeginFlow {
+                // bazaar need to update, in this case we only launch purchase without discount
+                callback.onFailure(it.localizedMessage, it.stackTrace.joinToString("\n"));
+            }
+            purchaseSucceed {
+                callback.onSuccess(
+                    it.orderId,
+                    it.purchaseToken,
+                    it.payload,
+                    it.packageName,
+                    it.purchaseState.ordinal,
+                    it.purchaseTime,
+                    it.productId,
+                    it.originalJson,
+                    it.dataSignature
+                );
+            }
+            purchaseCanceled {
+                callback.onCancel();
+            }
+            purchaseFailed {
+                callback.onFailure(it.localizedMessage, it.stackTrace.joinToString("\n"))
+            }
+
         }
-        PaymentActivity.start(
-            activity,
-            command,
-            productId,
-            callback,
-            payload,
-            dynamicPriceToken
-        )
+
     }
 
     fun consume(purchaseToken: String, callback: ConsumeCallback) {

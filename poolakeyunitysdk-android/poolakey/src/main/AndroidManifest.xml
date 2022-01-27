@@ -4,9 +4,4 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <application>
-        <activity
-            android:name="com.farsitel.bazaar.PaymentActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
-    </application>
 </manifest>
