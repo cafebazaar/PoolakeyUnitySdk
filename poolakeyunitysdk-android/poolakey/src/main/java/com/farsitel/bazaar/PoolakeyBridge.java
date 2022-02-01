@@ -76,7 +76,10 @@ public class PoolakeyBridge {
     }
 
     public void purchase(String type, String productId, String payload, String dynamicPriceToken, PaymentCallback callback) {
-        PoolakeyKotlinBridge.INSTANCE.purchase((AppCompatActivity) getCurrentActivity(), type, productId, payload, dynamicPriceToken, callback);
+       PaymentActivity.Command cmd = PaymentActivity.Command.PurchaseProduct;
+       if (!type.equalsIgnoreCase("inApp"))
+           cmd = PaymentActivity.Command.Subscribe;
+       PoolakeyKotlinBridge.INSTANCE.startActivity(getCurrentActivity(), cmd, callback, productId, payload, dynamicPriceToken);
     }
 
     public void consume(String token, ConsumeCallback callback) {
