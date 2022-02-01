@@ -2,8 +2,6 @@ package com.farsitel.bazaar
 
 import android.app.Activity
 import android.content.Context
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import com.farsitel.bazaar.callback.*
 import ir.cafebazaar.poolakey.Connection
 import ir.cafebazaar.poolakey.ConnectionState
@@ -11,8 +9,6 @@ import ir.cafebazaar.poolakey.Payment
 import ir.cafebazaar.poolakey.config.PaymentConfiguration
 import ir.cafebazaar.poolakey.config.SecurityCheck
 import ir.cafebazaar.poolakey.entity.PurchaseInfo
-import ir.cafebazaar.poolakey.entity.SkuDetails
-import ir.cafebazaar.poolakey.request.PurchaseRequest
 
 object PoolakeyKotlinBridge {
     lateinit var payment: Payment

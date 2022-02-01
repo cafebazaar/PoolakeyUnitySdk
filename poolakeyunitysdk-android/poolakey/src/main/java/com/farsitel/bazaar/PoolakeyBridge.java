@@ -3,8 +3,6 @@ package com.farsitel.bazaar;
 import android.app.Activity;
 import android.util.Log;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.farsitel.bazaar.callback.ConnectionCallback;
 import com.farsitel.bazaar.callback.ConsumeCallback;
 import com.farsitel.bazaar.callback.PaymentCallback;
