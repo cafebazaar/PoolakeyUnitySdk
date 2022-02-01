@@ -34,21 +34,49 @@ class PaymentActivity : FragmentActivity() {
 
     private fun purchaseProduct() {
         PoolakeyKotlinBridge.payment.purchaseProduct(
-            this@PaymentActivity,
-            PurchaseRequest(productId!!, REQUEST_CODE, payload, dynamicPriceToken)
+            activityResultRegistry,
+            PurchaseRequest(productId!!, payload, dynamicPriceToken)
         ) {
             purchaseFlowBegan {
                 // Bazaar's billing screen has opened successfully
                 paymentCallback?.onStart()
             }
-            failedToBeginFlow { throwable ->
+            failedToBeginFlow {
                 // Failed to open Bazaar's billing screen
-                if (throwable is DynamicPriceNotSupportedException) {
+                if (it is DynamicPriceNotSupportedException) {
                     dynamicPriceToken = null
                     purchaseProduct()
                 } else {
-                    paymentCallback?.onFailure(throwable.message, throwable.stackTrace.joinToString("\n"))
+                    paymentCallback?.onFailure(
+                        it.localizedMessage,
+                        it.stackTrace.joinToString("\n")
+                    )
                 }
+                finish()
+            }
+            purchaseSucceed {
+                // User purchased the product
+                paymentCallback?.onSuccess(
+                    it.orderId,
+                    it.purchaseToken,
+                    it.payload,
+                    it.packageName,
+                    it.purchaseState.ordinal,
+                    it.purchaseTime,
+                    it.productId,
+                    it.originalJson,
+                    it.dataSignature
+                )
+                finish()
+            }
+            purchaseCanceled {
+                // User canceled the purchase
+                paymentCallback?.onCancel()
+                finish()
+
+            }
+            purchaseFailed {
+                paymentCallback?.onFailure(it.localizedMessage, it.stackTrace.joinToString("\n"))
                 finish()
             }
         }
@@ -56,8 +84,8 @@ class PaymentActivity : FragmentActivity() {
 
     private fun subscribeProduct() {
         PoolakeyKotlinBridge.payment.subscribeProduct(
-            this@PaymentActivity,
-            PurchaseRequest(productId!!, REQUEST_CODE, payload, dynamicPriceToken)
+            activityResultRegistry,
+            PurchaseRequest(productId!!, payload, dynamicPriceToken)
         ) {
             purchaseFlowBegan {
                 // Bazaar's billing screen has opened successfully
@@ -76,24 +104,18 @@ class PaymentActivity : FragmentActivity() {
                     finish()
                 }
             }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        PoolakeyKotlinBridge.payment.onActivityResult(requestCode, resultCode, data) {
-            purchaseSucceed { purchaseInfo ->
+            purchaseSucceed {
                 // User purchased the product
                 paymentCallback?.onSuccess(
-                    purchaseInfo.orderId,
-                    purchaseInfo.purchaseToken,
-                    purchaseInfo.payload,
-                    purchaseInfo.packageName,
-                    purchaseInfo.purchaseState.ordinal,
-                    purchaseInfo.purchaseTime,
-                    purchaseInfo.productId,
-                    purchaseInfo.originalJson,
-                    purchaseInfo.dataSignature
+                    it.orderId,
+                    it.purchaseToken,
+                    it.payload,
+                    it.packageName,
+                    it.purchaseState.ordinal,
+                    it.purchaseTime,
+                    it.productId,
+                    it.originalJson,
+                    it.dataSignature
                 )
                 finish()
             }
@@ -101,9 +123,10 @@ class PaymentActivity : FragmentActivity() {
                 // User canceled the purchase
                 paymentCallback?.onCancel()
                 finish()
+
             }
-            purchaseFailed { throwable ->
-                paymentCallback?.onFailure(throwable.message, throwable.stackTrace.joinToString("\n"))
+            purchaseFailed {
+                paymentCallback?.onFailure(it.localizedMessage, it.stackTrace.joinToString("\n"))
                 finish()
             }
         }
@@ -115,7 +138,6 @@ class PaymentActivity : FragmentActivity() {
     }
 
     companion object {
-
         private const val REQUEST_CODE: Int = 1000
         private const val KEY_PRODUCT_ID = "productId"
         private const val KEY_PAYLOAD = "payload"

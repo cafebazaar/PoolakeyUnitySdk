@@ -3,8 +3,6 @@ package com.farsitel.bazaar;
 import android.app.Activity;
 import android.util.Log;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.farsitel.bazaar.callback.ConnectionCallback;
 import com.farsitel.bazaar.callback.ConsumeCallback;
 import com.farsitel.bazaar.callback.PaymentCallback;
@@ -15,7 +13,7 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 
 public class PoolakeyBridge {
-    public static final String TAG = "PoolakeyBridge";
+    public static final String TAG = "Poolakey";
     private static PoolakeyBridge instance;
 
     private Class<?> mUnityPlayerClass;
@@ -54,7 +52,7 @@ public class PoolakeyBridge {
             }
         return null;
     }
-//
+
     public String getVersion() {
         return BuildConfig.POOLAKEY_VERSION;
     }
@@ -76,11 +74,10 @@ public class PoolakeyBridge {
     }
 
     public void purchase(String type, String productId, String payload, String dynamicPriceToken, PaymentCallback callback) {
-        PoolakeyKotlinBridge.INSTANCE.purchase((AppCompatActivity) getCurrentActivity(), type, productId, payload,  dynamicPriceToken, callback);
-//        PaymentActivity.Command cmd = PaymentActivity.Command.PurchaseProduct;
-//        if (!type.equalsIgnoreCase("inApp"))
-//            cmd = PaymentActivity.Command.Subscribe;
-//        PoolakeyKotlinBridge.INSTANCE.startActivity(getCurrentActivity(), cmd, callback, productId, payload, dynamicPriceToken);
+       PaymentActivity.Command cmd = PaymentActivity.Command.PurchaseProduct;
+       if (!type.equalsIgnoreCase("inApp"))
+           cmd = PaymentActivity.Command.Subscribe;
+       PoolakeyKotlinBridge.INSTANCE.startActivity(getCurrentActivity(), cmd, callback, productId, payload, dynamicPriceToken);
     }
 
     public void consume(String token, ConsumeCallback callback) {
