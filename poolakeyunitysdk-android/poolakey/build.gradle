@@ -50,7 +50,7 @@ task createJar(type: Copy) {
 }*/
 task updateAAR(type: Copy) {
     from('build/outputs/aar')
-    into('../poolakeyunitysdk-unity/Assets/Bazaar/Poolakey/Plugins/')
+    into('../../poolakeyunitysdk-unity/Assets/Bazaar/Poolakey/Plugins/')
     include(project.name + '-release.aar')
 }
 

@@ -1,31 +1,34 @@
 <dependencies>
   <packages>
-    <package>com.github.cafebazaar.Poolakey:poolakey:1.2.2</package>
+    <package>com.github.cafebazaar.Poolakey:poolakey:2.0.0</package>
     <package>org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.20</package>
   </packages>
   <files>
-    <file>Assets/Plugins/Android/androidx.activity.activity-1.1.0.aar</file>
+    <file>Assets/Plugins/Android/androidx.activity.activity-1.2.4.aar</file>
     <file>Assets/Plugins/Android/androidx.annotation.annotation-1.1.0.jar</file>
+    <file>Assets/Plugins/Android/androidx.annotation.annotation-experimental-1.0.0.aar</file>
     <file>Assets/Plugins/Android/androidx.arch.core.core-common-2.1.0.jar</file>
     <file>Assets/Plugins/Android/androidx.arch.core.core-runtime-2.1.0.aar</file>
     <file>Assets/Plugins/Android/androidx.collection.collection-1.1.0.jar</file>
-    <file>Assets/Plugins/Android/androidx.core.core-1.1.0.aar</file>
+    <file>Assets/Plugins/Android/androidx.core.core-1.2.0.aar</file>
+    <file>Assets/Plugins/Android/androidx.core.core-ktx-1.2.0.aar</file>
     <file>Assets/Plugins/Android/androidx.customview.customview-1.0.0.aar</file>
-    <file>Assets/Plugins/Android/androidx.fragment.fragment-1.2.5.aar</file>
-    <file>Assets/Plugins/Android/androidx.lifecycle.lifecycle-common-2.2.0.jar</file>
+    <file>Assets/Plugins/Android/androidx.fragment.fragment-1.4.0.aar</file>
+    <file>Assets/Plugins/Android/androidx.lifecycle.lifecycle-common-2.3.1.jar</file>
     <file>Assets/Plugins/Android/androidx.lifecycle.lifecycle-livedata-2.0.0.aar</file>
-    <file>Assets/Plugins/Android/androidx.lifecycle.lifecycle-livedata-core-2.2.0.aar</file>
-    <file>Assets/Plugins/Android/androidx.lifecycle.lifecycle-runtime-2.2.0.aar</file>
-    <file>Assets/Plugins/Android/androidx.lifecycle.lifecycle-viewmodel-2.2.0.aar</file>
-    <file>Assets/Plugins/Android/androidx.lifecycle.lifecycle-viewmodel-savedstate-2.2.0.aar</file>
+    <file>Assets/Plugins/Android/androidx.lifecycle.lifecycle-livedata-core-2.3.1.aar</file>
+    <file>Assets/Plugins/Android/androidx.lifecycle.lifecycle-runtime-2.3.1.aar</file>
+    <file>Assets/Plugins/Android/androidx.lifecycle.lifecycle-viewmodel-2.3.1.aar</file>
+    <file>Assets/Plugins/Android/androidx.lifecycle.lifecycle-viewmodel-savedstate-2.3.1.aar</file>
     <file>Assets/Plugins/Android/androidx.loader.loader-1.0.0.aar</file>
-    <file>Assets/Plugins/Android/androidx.savedstate.savedstate-1.0.0.aar</file>
+    <file>Assets/Plugins/Android/androidx.savedstate.savedstate-1.1.0.aar</file>
+    <file>Assets/Plugins/Android/androidx.tracing.tracing-1.0.0.aar</file>
     <file>Assets/Plugins/Android/androidx.versionedparcelable.versionedparcelable-1.1.0.aar</file>
     <file>Assets/Plugins/Android/androidx.viewpager.viewpager-1.0.0.aar</file>
-    <file>Assets/Plugins/Android/com.github.cafebazaar.Poolakey.poolakey-1.2.2.aar</file>
+    <file>Assets/Plugins/Android/com.github.cafebazaar.Poolakey.poolakey-2.0.0.aar</file>
     <file>Assets/Plugins/Android/org.jetbrains.annotations-13.0.jar</file>
-    <file>Assets/Plugins/Android/org.jetbrains.kotlin.kotlin-stdlib-1.4.20.jar</file>
-    <file>Assets/Plugins/Android/org.jetbrains.kotlin.kotlin-stdlib-common-1.4.20.jar</file>
+    <file>Assets/Plugins/Android/org.jetbrains.kotlin.kotlin-stdlib-1.5.31.jar</file>
+    <file>Assets/Plugins/Android/org.jetbrains.kotlin.kotlin-stdlib-common-1.5.31.jar</file>
     <file>Assets/Plugins/Android/org.jetbrains.kotlin.kotlin-stdlib-jdk7-1.4.20.jar</file>
   </files>
   <settings>
