@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using RTLTMPro;
 using UnityEngine;
 using Bazaar.Data;
@@ -10,6 +10,7 @@ public class PoolakeyExample : MonoBehaviour
 {
     [SerializeField] private Vehicle vehicle;
     [SerializeField] private GameObject waitingPanel;
+    [SerializeField] private Transform itemContainer;
     [SerializeField] private ShopItem shopItemTemplate;
     [SerializeField] private RTLTextMeshPro consoleText;
     [SerializeField] private List<Product> products;
@@ -33,7 +34,7 @@ public class PoolakeyExample : MonoBehaviour
         shopItems = new Dictionary<string, ShopItem>();
         foreach (var p in products)
         {
-            shopItems.Add(p.id, Instantiate<ShopItem>(shopItemTemplate, transform).Init(p, Purchase, Consume));
+            shopItems.Add(p.id, Instantiate<ShopItem>(shopItemTemplate, itemContainer).Init(p, Purchase, Consume));
         }
     }
 
@@ -103,6 +104,9 @@ public class PoolakeyExample : MonoBehaviour
             case "gas":
                 vehicle.Increase();
                 break;
+            case "dynamic_price":
+                vehicle.Increase();
+                break;
             case "premium":
                 vehicle.SetSkin(purchaseInfo.purchaseState == PurchaseInfo.State.Purchased ? 1 : 0);
                 break;
@@ -110,9 +114,9 @@ public class PoolakeyExample : MonoBehaviour
         }
     }
 
-    private async void Purchase(SKUDetails skuDetails)
+    private async void Purchase(SKUDetails skuDetails, string dynamicPriceToken)
     {
-        var result = await payment.Purchase(skuDetails.sku, skuDetails.type);
+        var result = await payment.Purchase(skuDetails.sku, skuDetails.type, null, null, "", dynamicPriceToken);
         Log(result.ToString());
         if (result.status == Status.Success)
         {
@@ -149,7 +153,7 @@ public class PoolakeyExample : MonoBehaviour
     }
 
     // The 'gas' item is only consumable in this example project
-    private bool IsConsumable(string productId) => productId == "gas";
+    private bool IsConsumable(string productId) => productId == "gas" || productId == "dynamic_price";
 
     public void Log(string message)
     {

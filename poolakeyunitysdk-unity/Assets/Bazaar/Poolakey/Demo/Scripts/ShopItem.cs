@@ -11,19 +11,21 @@ public class ShopItem : MonoBehaviour
     [SerializeField] private RTLTextMeshPro descriptionText;
     [SerializeField] private RTLTextMeshPro priceText;
     [SerializeField] private Button deleteButton;
+    [SerializeField] private InputField dynamicPriceInput;
     private SKUDetails skuDetails;
     private PurchaseInfo purchaseInfo;
-    private Action<SKUDetails> onSelect;
+    private Action<SKUDetails, String> onSelect;
     private Action<PurchaseInfo> onDelete;
     private Button button;
 
-    public ShopItem Init(Product product, Action<SKUDetails> onSelect, Action<PurchaseInfo> onDelete)
+    public ShopItem Init(Product product, Action<SKUDetails, string> onSelect, Action<PurchaseInfo> onDelete)
     {
         this.onSelect = onSelect;
         this.onDelete = onDelete;
         iconImage.sprite = product.icon;
         button = GetComponent<Button>();
         button.interactable = false;
+        dynamicPriceInput.gameObject.SetActive(product.id == "dynamic_price");
         return this;
     }
 
@@ -33,7 +35,7 @@ public class ShopItem : MonoBehaviour
         this.purchaseInfo = purchaseInfo;
         this.skuDetails = skuDetails;
         titleText.text = skuDetails.title;
-        priceText.text = skuDetails.price;
+        priceText.text = skuDetails.price.Replace(",", "");
         descriptionText.text = skuDetails.description;
 
         button.interactable = purchaseInfo == null;
@@ -42,7 +44,7 @@ public class ShopItem : MonoBehaviour
 
     public void OnClick()
     {
-        onSelect?.Invoke(skuDetails);
+        onSelect?.Invoke(skuDetails, dynamicPriceInput.text);
     }
     public void OnDeleteClick()
     {
