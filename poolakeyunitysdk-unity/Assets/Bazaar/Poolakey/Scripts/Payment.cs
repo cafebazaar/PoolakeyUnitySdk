@@ -22,7 +22,7 @@ namespace Bazaar.Poolakey
             {
                 var callback = new ConnectionCallbackProxy();
                 bridge.Call("connect", paymentConfiguration.securityCheck.rsaPublicKey, callback);
-                result = await callback.WaitForResult();
+                result = await callback.taskCompletionSource.Task;
             }
             else
             {
@@ -46,7 +46,7 @@ namespace Bazaar.Poolakey
             {
                 var callback = new SKUDetailsCallbackProxy();
                 bridge.Call("getSkuDetails", type.ToString(), productIds, callback);
-                result = await callback.WaitForResult();
+                result = await callback.taskCompletionSource.Task;
             }
             else
             {
@@ -63,7 +63,7 @@ namespace Bazaar.Poolakey
             {
                 var callback = new PurchasesCallbackProxy();
                 bridge.Call("getPurchases", type.ToString(), callback);
-                result = await callback.WaitForResult();
+                result = await callback.taskCompletionSource.Task;
             }
             else
             {
@@ -80,7 +80,7 @@ namespace Bazaar.Poolakey
             {
                 var callback = new PaymentCallbackProxy(onStart);
                 bridge.Call("purchase", type.ToString(), productId, payload, dynamicPriceToken, callback);
-                result = await callback.WaitForResult();
+                result = await callback.taskCompletionSource.Task;
             }
             else
             {
@@ -92,13 +92,12 @@ namespace Bazaar.Poolakey
 
         public async Task<Result<bool>> Consume(string token, Action<Result<bool>> onComplete = null)
         {
-
             Result<bool> result = Result<bool>.GetDefault();
             if (isAndroid)
             {
                 var callback = new ConsumeCallbackProxy();
                 bridge.Call("consume", token, callback);
-                result = await callback.WaitForResult();
+                result = await callback.taskCompletionSource.Task;
             }
             else
             {
