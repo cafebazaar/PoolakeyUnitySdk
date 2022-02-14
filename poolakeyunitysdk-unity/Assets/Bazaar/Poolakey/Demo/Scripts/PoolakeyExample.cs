@@ -9,10 +9,10 @@ using System.Collections.Generic;
 public class PoolakeyExample : MonoBehaviour
 {
     [SerializeField] private Vehicle vehicle;
-    [SerializeField] private List<Product> products;
-    [SerializeField] private ShopItem shopItemTemplate;
-    [SerializeField] private RTLTextMeshPro ConsoleText;
     [SerializeField] private GameObject waitingPanel;
+    [SerializeField] private ShopItem shopItemTemplate;
+    [SerializeField] private RTLTextMeshPro consoleText;
+    [SerializeField] private List<Product> products;
 
     private Payment payment;
     private Dictionary<string, ShopItem> shopItems;
@@ -153,7 +153,8 @@ public class PoolakeyExample : MonoBehaviour
 
     public void Log(string message)
     {
-        ConsoleText.text = ConsoleText.OriginalText + message + "\n";
+        consoleText.text = consoleText.OriginalText + message + "\n";
+        Debug.Log(message);
     }
 
     void OnApplicationQuit()
