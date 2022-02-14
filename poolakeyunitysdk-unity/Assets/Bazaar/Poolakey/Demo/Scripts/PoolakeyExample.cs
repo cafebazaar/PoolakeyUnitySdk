@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using RTLTMPro;
 using UnityEngine;
 using Bazaar.Data;
@@ -12,12 +12,12 @@ public class PoolakeyExample : MonoBehaviour
     [SerializeField] private List<Product> products;
     [SerializeField] private ShopItem shopItemTemplate;
     [SerializeField] private RTLTextMeshPro ConsoleText;
+    [SerializeField] private GameObject waitingPanel;
 
     private Payment payment;
     private Dictionary<string, ShopItem> shopItems;
     void Start()
     {
-
         // TODO: SecurityCheck.Enable("Your RSA key");
         SecurityCheck securityCheck = SecurityCheck.Disable();
         PaymentConfiguration paymentConfiguration = new PaymentConfiguration(securityCheck);
@@ -49,6 +49,7 @@ public class PoolakeyExample : MonoBehaviour
 
     private async void GetSkuDetails()
     {
+        waitingPanel.SetActive(true);
         var productIds = "";
         foreach (var p in products)
         {
@@ -89,6 +90,7 @@ public class PoolakeyExample : MonoBehaviour
             }
 
         }
+        waitingPanel.SetActive(false);
     }
 
     private void UpdateStats(PurchaseInfo purchaseInfo)
