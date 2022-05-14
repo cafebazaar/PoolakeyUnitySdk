@@ -73,6 +73,20 @@ namespace Bazaar.Poolakey
             return result;
         }
 
+        public async Task<Result<TRIALDetail>> checkTrialState( Action<Result<TRIALDetail>> onComplete = null){
+            var result = Result<TRIALDetail>.GetDefault();
+            if(isAndroid){
+                var callback = new TrialSubscriptionCallbackProxy();
+                bridge.Call("checkTrialSubscriptionState",callback);
+                result = await callback.taskCompletionSource.Task;
+            }
+            else
+            {
+                await Task.Delay(1);
+            }
+            onComplete?.Invoke(result);
+            return result;
+        }
         public async Task<Result<PurchaseInfo>> Purchase(string productId, SKUDetails.Type type = SKUDetails.Type.inApp, Action<Result<PurchaseInfo>> onStart = null, Action<Result<PurchaseInfo>> onComplete = null, string payload = "", string dynamicPriceToken = null)
         {
             var result = Result<PurchaseInfo>.GetDefault();
