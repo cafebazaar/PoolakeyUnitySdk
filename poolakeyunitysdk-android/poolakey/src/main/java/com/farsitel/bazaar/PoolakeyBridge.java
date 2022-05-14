@@ -8,6 +8,7 @@ import com.farsitel.bazaar.callback.ConsumeCallback;
 import com.farsitel.bazaar.callback.PaymentCallback;
 import com.farsitel.bazaar.callback.PurchasesCallback;
 import com.farsitel.bazaar.callback.SKUDetailsCallback;
+import com.farsitel.bazaar.callback.TrialSubscriptionCallback;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -67,6 +68,9 @@ public class PoolakeyBridge {
 
     public void getSkuDetails(String type, String productIds, SKUDetailsCallback callback) {
         PoolakeyKotlinBridge.INSTANCE.getSkuDetails(type, Arrays.asList(productIds.split(",")), callback);
+    }
+    public void checkTrialSubscriptionState( TrialSubscriptionCallback callback) {
+        PoolakeyKotlinBridge.INSTANCE.checkTrialSubscriptionState(callback);
     }
 
     public void getPurchases(String type, PurchasesCallback callback) {
