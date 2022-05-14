@@ -1,29 +1,27 @@
-using UnityEngine;
 using Bazaar.Data;
 using Bazaar.Callbacks;
 using Bazaar.Poolakey.Data;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Bazaar.Poolakey.Callbacks{
+namespace Bazaar.Poolakey.Callbacks
+{
 
-    public class TrialSubscriptionCallbackProxy : CallbackProxy<TRIALDetail>
+    public class TrialSubscriptionCallbackProxy : CallbackProxy<TrialDetails>
     {
         public TrialSubscriptionCallbackProxy() : base("com.farsitel.bazaar.callback.TrialSubscriptionCallback")
         {
-             taskCompletionSource = new TaskCompletionSource<Result<TRIALDetail>>();
+            taskCompletionSource = new TaskCompletionSource<Result<TrialDetails>>();
         }
 
-        void onSuccess(bool isAvailable,int trialPeriodDays)
+        void onSuccess(bool isAvailable, int trialPeriodDays)
         {
-        var tRIALDetail = new TRIALDetail{isAvailable =isAvailable,trialPeriodDays = trialPeriodDays};
-            taskCompletionSource.SetResult(new Result<TRIALDetail>(Status.Success, "Get TRialState completed.") { data = tRIALDetail });
+            var TrialDetails = new TrialDetails { isAvailable = isAvailable, trialPeriodDays = trialPeriodDays };
+            taskCompletionSource.SetResult(new Result<TrialDetails>(Status.Success, "Get TrialState completed.") { data = TrialDetails });
         }
 
         void onFailure(string message, string stackTrace)
         {
-           
-            taskCompletionSource.SetResult(new Result<TRIALDetail>(Status.Failure, message, stackTrace));
+            taskCompletionSource.SetResult(new Result<TrialDetails>(Status.Failure, message, stackTrace));
         }
     }
 }

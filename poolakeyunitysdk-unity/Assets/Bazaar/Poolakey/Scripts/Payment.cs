@@ -73,11 +73,13 @@ namespace Bazaar.Poolakey
             return result;
         }
 
-        public async Task<Result<TRIALDetail>> checkTrialState( Action<Result<TRIALDetail>> onComplete = null){
-            var result = Result<TRIALDetail>.GetDefault();
-            if(isAndroid){
+        public async Task<Result<TrialDetails>> checkTrialState(Action<Result<TrialDetails>> onComplete = null)
+        {
+            var result = Result<TrialDetails>.GetDefault();
+            if (isAndroid)
+            {
                 var callback = new TrialSubscriptionCallbackProxy();
-                bridge.Call("checkTrialSubscriptionState",callback);
+                bridge.Call("checkTrialSubscriptionState", callback);
                 result = await callback.taskCompletionSource.Task;
             }
             else
