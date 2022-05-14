@@ -2,6 +2,7 @@ package com.farsitel.bazaar
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import com.farsitel.bazaar.callback.*
 import ir.cafebazaar.poolakey.Connection
 import ir.cafebazaar.poolakey.ConnectionState
@@ -97,7 +98,27 @@ object PoolakeyKotlinBridge {
                 }
         }
     }
+    fun checkTrialSubscriptionState(callback: TrialSubscriptionCallback) {
+        if (connection.getState() != ConnectionState.Connected) {
+            callback.onFailure(
+                    "Connection not found.",
+                    "In order to getting purchases, connect to Poolakey!"
+            )
+            return
 
+
+        }
+        payment.checkTrialSubscription {
+            checkTrialSubscriptionSucceed{
+                data ->
+                callback.onSuccess(data) }
+            checkTrialSubscriptionFailed { throwable ->
+                callback.onFailure(
+                        throwable.message,
+                        throwable.stackTrace.joinToString { "\n" })
+            }
+        }
+    }
     fun getPurchases(type: String, callback: PurchasesCallback) {
         if (connection.getState() != ConnectionState.Connected) {
             callback.onFailure(
