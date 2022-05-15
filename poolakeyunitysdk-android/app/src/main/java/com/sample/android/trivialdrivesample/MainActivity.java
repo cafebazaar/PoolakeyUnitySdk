@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getSKUDetails() {
-        PoolakeyKotlinBridge.INSTANCE.getSkuDetails("inapp", Arrays.asList("gas,premium".split(",")), new SKUDetailsCallback() {
+        PoolakeyKotlinBridge.INSTANCE.getSkuDetails("inapp", Arrays.asList("gas,premium,trial_subscription,infinite_gas_monthly,dynamic_price".split(",")), new SKUDetailsCallback() {
             @Override
             public void onSuccess(List<SkuDetails> data) {
                 log("onSkuDetailsSuccess " + data.toString());
