@@ -2,26 +2,32 @@ using Bazaar.Data;
 using Bazaar.Callbacks;
 using Bazaar.Poolakey.Data;
 using System.Threading.Tasks;
+using System;
 
 namespace Bazaar.Poolakey.Callbacks
 {
 
-    public class TrialSubscriptionCallbackProxy : CallbackProxy<TrialDetails>
+    public class TrialSubscriptionCallbackProxy : CallbackProxy<SKUDetails>
     {
-        public TrialSubscriptionCallbackProxy() : base("com.farsitel.bazaar.callback.TrialSubscriptionCallback")
+        private SKUDetails trialSubscription;
+
+        public TrialSubscriptionCallbackProxy(SKUDetails trialSubscription) : base("com.farsitel.bazaar.callback.TrialSubscriptionCallback")
         {
-            taskCompletionSource = new TaskCompletionSource<Result<TrialDetails>>();
+            this.trialSubscription = trialSubscription;
+            taskCompletionSource = new TaskCompletionSource<Result<SKUDetails>>();
         }
 
         void onSuccess(bool isAvailable, int trialPeriodDays)
         {
-            var TrialDetails = new TrialDetails { isAvailable = isAvailable, trialPeriodDays = trialPeriodDays };
-            taskCompletionSource.SetResult(new Result<TrialDetails>(Status.Success, "Get TrialState completed.") { data = TrialDetails });
+            DateTime date = DateTime.Today;
+            trialSubscription.subscriptionExpireDate = date.AddDays(trialPeriodDays);
+            trialSubscription.isAvailable = isAvailable;
+            taskCompletionSource.SetResult(new Result<SKUDetails>(Status.Success, "Get TrialState completed.") { data = trialSubscription });
         }
 
         void onFailure(string message, string stackTrace)
         {
-            taskCompletionSource.SetResult(new Result<TrialDetails>(Status.Failure, message, stackTrace));
+            taskCompletionSource.SetResult(new Result<SKUDetails>(Status.Failure, message, stackTrace));
         }
     }
 }

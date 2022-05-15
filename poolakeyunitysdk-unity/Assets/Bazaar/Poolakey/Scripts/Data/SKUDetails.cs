@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Bazaar.Poolakey.Data
@@ -7,6 +8,8 @@ namespace Bazaar.Poolakey.Data
         public enum Type { all, inApp, subscription }
         public Type type;
         public string sku, title, price, description;
+        public bool isAvailable = true;
+        public DateTime subscriptionExpireDate;
         public SKUDetails(AndroidJavaObject entity)
         {
             this.type = entity.Get<string>("type") == "inapp" ? Type.inApp : Type.subscription;
@@ -16,6 +19,14 @@ namespace Bazaar.Poolakey.Data
             this.description = entity.Get<string>("description");
         }
 
-        override public string ToString() => $"sku: {sku}, type: {type}, title: {title}, price: {price}, description: {description}";
+        override public string ToString()
+        {
+            var log = $"sku: {sku}, type: {type}, title: {title}, price: {price}, description: {description}";
+            if (subscriptionExpireDate.Year != 1)
+            {
+                log += $"isAvailable: {isAvailable}, subscriptionExpireDate: {subscriptionExpireDate}";
+            }
+            return log;
+        }
     }
 }

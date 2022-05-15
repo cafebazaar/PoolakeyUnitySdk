@@ -47,6 +47,15 @@ namespace Bazaar.Poolakey
                 var callback = new SKUDetailsCallbackProxy();
                 bridge.Call("getSkuDetails", type.ToString(), productIds, callback);
                 result = await callback.taskCompletionSource.Task;
+
+                if (result.status == Status.Success)
+                {
+                    var trialSubscription = result.data.Find(x => x.sku == "trial_subscription");
+                    var trialCallback = new TrialSubscriptionCallbackProxy(trialSubscription);
+                    bridge.Call("checkTrialSubscriptionState", trialCallback);
+                    var trialResult = await trialCallback.taskCompletionSource.Task;
+                    trialSubscription = trialResult.data;
+                }
             }
             else
             {
@@ -73,22 +82,6 @@ namespace Bazaar.Poolakey
             return result;
         }
 
-        public async Task<Result<TrialDetails>> checkTrialState(Action<Result<TrialDetails>> onComplete = null)
-        {
-            var result = Result<TrialDetails>.GetDefault();
-            if (isAndroid)
-            {
-                var callback = new TrialSubscriptionCallbackProxy();
-                bridge.Call("checkTrialSubscriptionState", callback);
-                result = await callback.taskCompletionSource.Task;
-            }
-            else
-            {
-                await Task.Delay(1);
-            }
-            onComplete?.Invoke(result);
-            return result;
-        }
         public async Task<Result<PurchaseInfo>> Purchase(string productId, SKUDetails.Type type = SKUDetails.Type.inApp, Action<Result<PurchaseInfo>> onStart = null, Action<Result<PurchaseInfo>> onComplete = null, string payload = "", string dynamicPriceToken = null)
         {
             var result = Result<PurchaseInfo>.GetDefault();

@@ -98,6 +98,7 @@ object PoolakeyKotlinBridge {
                 }
         }
     }
+
     fun checkTrialSubscriptionState(callback: TrialSubscriptionCallback) {
         if (connection.getState() != ConnectionState.Connected) {
             callback.onFailure(
@@ -105,13 +106,11 @@ object PoolakeyKotlinBridge {
                     "In order to getting purchases, connect to Poolakey!"
             )
             return
-
-
         }
         payment.checkTrialSubscription {
             checkTrialSubscriptionSucceed{
                 data ->
-                callback.onSuccess(data) }
+                callback.onSuccess(data.isAvailable, data.trialPeriodDays) }
             checkTrialSubscriptionFailed { throwable ->
                 callback.onFailure(
                         throwable.message,
@@ -119,6 +118,7 @@ object PoolakeyKotlinBridge {
             }
         }
     }
+
     fun getPurchases(type: String, callback: PurchasesCallback) {
         if (connection.getState() != ConnectionState.Connected) {
             callback.onFailure(
