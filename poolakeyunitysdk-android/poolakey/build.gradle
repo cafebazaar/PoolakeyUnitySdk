@@ -5,22 +5,20 @@ ext {
     kotlin_version = '1.4.20'
 }
 android {
-    compileSdkVersion 29
-    buildToolsVersion '29.0.3'
+    compileSdkVersion 32
 
     defaultConfig {
         minSdkVersion 9
-        targetSdkVersion 29
         versionCode 200000
         versionName "2.0.0"
     }
 
     buildTypes {
         debug {
-            buildConfigField "String", "POOLAKEY_VERSION", '"' + poolakey_version + '"'
+            buildConfigField "String", 'POOLAKEY_VERSION', "\"{$poolakey_version}\""
         }
         release {
-            buildConfigField "String", "POOLAKEY_VERSION", '"' + poolakey_version + '"'
+            buildConfigField "String", 'POOLAKEY_VERSION', "\"{$poolakey_version}\""
         }
     }
 
