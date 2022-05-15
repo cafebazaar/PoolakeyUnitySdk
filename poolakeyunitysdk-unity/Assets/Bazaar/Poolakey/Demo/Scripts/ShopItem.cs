@@ -39,7 +39,11 @@ public class ShopItem : MonoBehaviour
         descriptionText.text = skuDetails.description;
 
         button.interactable = purchaseInfo == null;
-        deleteButton.gameObject.SetActive(purchaseInfo != null && purchaseInfo.productId == "premium");
+        if (skuDetails.isAvailable)
+        {
+            skuDetails.isAvailable = purchaseInfo != null && purchaseInfo.productId == "premium";
+        }
+        deleteButton.gameObject.SetActive(skuDetails.isAvailable);
     }
 
     public void OnClick()

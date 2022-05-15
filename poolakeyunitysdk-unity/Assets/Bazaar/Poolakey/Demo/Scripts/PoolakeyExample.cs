@@ -19,6 +19,7 @@ public class PoolakeyExample : MonoBehaviour
     private Dictionary<string, ShopItem> shopItems;
     void Start()
     {
+        // TODO: SecurityCheck.Enable("Your RSA key");
         SecurityCheck securityCheck = SecurityCheck.Disable();
         PaymentConfiguration paymentConfiguration = new PaymentConfiguration(securityCheck);
         payment = new Payment(paymentConfiguration);
@@ -37,15 +38,6 @@ public class PoolakeyExample : MonoBehaviour
         }
     }
 
- void Update() {
-    if(Input.GetMouseButtonDown(0)){
-       SartSubscription();
-    }
-}
-
-private async void SartSubscription(){
-           await payment.Purchase("",SKUDetails.Type.subscription);
-}
     private async void Connect()
     {
         var result = await payment.Connect();
@@ -64,18 +56,12 @@ private async void SartSubscription(){
         {
             productIds += p.id + ",";
         }
+        
         var result = await payment.GetSkuDetails(productIds);
         Log(result.ToString());
         if (result.status == Status.Success)
         {
             GetPurchases(result.data);
-
-        var result1 = await payment.checkTrialState();
-        if (result1.status == Status.Success)
-        Debug.Log("CheckTrial State Answer = " + result1.data.ToString());
-        else{
-            Debug.Log("Message = "+ result1.message);
-        }
         }
     }
 
@@ -102,9 +88,9 @@ private async void SartSubscription(){
                         UpdateStats(purchaseInfo);
                     }
                 }
+                
                 shopItems[skuDetails.sku].CommitData(skuDetails, purchaseInfo);
             }
-
         }
         waitingPanel.SetActive(false);
     }
@@ -131,7 +117,6 @@ private async void SartSubscription(){
 
     private async void Purchase(SKUDetails skuDetails, string dynamicPriceToken)
     {
-      
         var result = await payment.Purchase(skuDetails.sku, skuDetails.type, null, null, "", dynamicPriceToken);
         Log(result.ToString());
         if (result.status == Status.Success)
