@@ -2,7 +2,6 @@ package com.farsitel.bazaar
 
 import android.app.Activity
 import android.content.Context
-import android.util.Log
 import com.farsitel.bazaar.callback.*
 import ir.cafebazaar.poolakey.Connection
 import ir.cafebazaar.poolakey.ConnectionState
@@ -52,32 +51,6 @@ object PoolakeyKotlinBridge {
             return
         }
         when (type) {
-//            "all" -> {
-//                val skuDetailsList: MutableList<SkuDetails> = mutableListOf()
-//                payment.getInAppSkuDetails(productIds) {
-//                    getSkuDetailsSucceed { list ->
-//                        skuDetailsList.addAll(list)
-//                        payment.getSubscriptionSkuDetails(productIds) {
-//                            getSkuDetailsSucceed { list ->
-//                                skuDetailsList.addAll(list)
-//                                callback.onSuccess(skuDetailsList)
-//                            }
-//                            getSkuDetailsFailed { throwable ->
-//                                callback.onFailure(
-//                                    throwable.message,
-//                                    throwable.stackTrace.joinToString { "\n" })
-//                            }
-//
-//                        }
-//                        getSkuDetailsFailed { throwable ->
-//                            callback.onFailure(
-//                                throwable.message,
-//                                throwable.stackTrace.joinToString { "\n" })
-//
-//                        }
-//                    }
-//                }
-//            }
             "inApp", "all" ->
                 payment.getInAppSkuDetails(skuIds = productIds) {
                     getSkuDetailsSucceed(callback::onSuccess)

@@ -69,7 +69,8 @@ public class PoolakeyBridge {
     public void getSkuDetails(String type, String productIds, SKUDetailsCallback callback) {
         PoolakeyKotlinBridge.INSTANCE.getSkuDetails(type, Arrays.asList(productIds.split(",")), callback);
     }
-    public void checkTrialSubscriptionState( TrialSubscriptionCallback callback) {
+
+    public void checkTrialSubscriptionState(TrialSubscriptionCallback callback) {
         PoolakeyKotlinBridge.INSTANCE.checkTrialSubscriptionState(callback);
     }
 
@@ -78,10 +79,10 @@ public class PoolakeyBridge {
     }
 
     public void purchase(String type, String productId, String payload, String dynamicPriceToken, PaymentCallback callback) {
-       PaymentActivity.Command cmd = PaymentActivity.Command.PurchaseProduct;
-       if (!type.equalsIgnoreCase("inApp"))
-           cmd = PaymentActivity.Command.Subscribe;
-       PoolakeyKotlinBridge.INSTANCE.startActivity(getCurrentActivity(), cmd, callback, productId, payload, dynamicPriceToken);
+        PaymentActivity.Command cmd = PaymentActivity.Command.PurchaseProduct;
+        if (!type.equalsIgnoreCase("inApp"))
+            cmd = PaymentActivity.Command.Subscribe;
+        PoolakeyKotlinBridge.INSTANCE.startActivity(getCurrentActivity(), cmd, callback, productId, payload, dynamicPriceToken);
     }
 
     public void consume(String token, ConsumeCallback callback) {
