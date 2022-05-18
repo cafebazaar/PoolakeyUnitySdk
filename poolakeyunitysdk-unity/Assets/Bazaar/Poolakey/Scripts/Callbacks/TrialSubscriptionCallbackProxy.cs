@@ -14,9 +14,9 @@ namespace Bazaar.Poolakey.Callbacks{
              taskCompletionSource = new TaskCompletionSource<Result<TRIALDetail>>();
         }
 
-        void onSuccess(bool isAvailable,int trialPeriodDays)
+        void onSuccess(AndroidJavaObject result)
         {
-        var tRIALDetail = new TRIALDetail{isAvailable =isAvailable,trialPeriodDays = trialPeriodDays};
+        var tRIALDetail = new TRIALDetail(result);
             taskCompletionSource.SetResult(new Result<TRIALDetail>(Status.Success, "Get TRialState completed.") { data = tRIALDetail });
         }
 
