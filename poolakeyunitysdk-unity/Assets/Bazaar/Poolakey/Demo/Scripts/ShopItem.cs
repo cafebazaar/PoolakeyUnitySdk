@@ -24,26 +24,21 @@ public class ShopItem : MonoBehaviour
         this.onDelete = onDelete;
         iconImage.sprite = product.icon;
         button = GetComponent<Button>();
-        button.interactable = false;
         dynamicPriceInput.gameObject.SetActive(product.id == "dynamic_price");
         return this;
     }
 
     public void CommitData(SKUDetails skuDetails, PurchaseInfo purchaseInfo)
     {
-        button.interactable = false;
         this.purchaseInfo = purchaseInfo;
         this.skuDetails = skuDetails;
         titleText.text = skuDetails.title;
         priceText.text = skuDetails.price.Replace(",", "");
         descriptionText.text = skuDetails.description;
-
-        button.interactable = purchaseInfo == null;
-        if (skuDetails.isAvailable)
+        if (skuDetails.sku == "premium")
         {
-            skuDetails.isAvailable = purchaseInfo != null && purchaseInfo.productId == "premium";
+            deleteButton.gameObject.SetActive(purchaseInfo != null);
         }
-        deleteButton.gameObject.SetActive(skuDetails.isAvailable);
     }
 
     public void OnClick()
