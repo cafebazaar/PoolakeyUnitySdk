@@ -22,6 +22,10 @@ namespace Bazaar.Poolakey.Callbacks
             DateTime date = DateTime.Today;
             trialSubscription.subscriptionExpireDate = date.AddDays(trialPeriodDays);
             trialSubscription.isAvailable = isAvailable;
+            if (isAvailable)
+            {
+                trialSubscription.description = $"For {trialPeriodDays} days.";
+            }
             taskCompletionSource.SetResult(new Result<SKUDetails>(Status.Success, "Get TrialState completed.") { data = trialSubscription });
         }
 

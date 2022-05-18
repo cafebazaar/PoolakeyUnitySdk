@@ -56,7 +56,7 @@ public class PoolakeyExample : MonoBehaviour
         {
             productIds += p.id + ",";
         }
-        
+
         var result = await payment.GetSkuDetails(productIds);
         Log(result.ToString());
         if (result.status == Status.Success)
@@ -88,7 +88,6 @@ public class PoolakeyExample : MonoBehaviour
                         UpdateStats(purchaseInfo);
                     }
                 }
-                
                 shopItems[skuDetails.sku].CommitData(skuDetails, purchaseInfo);
             }
         }
@@ -99,6 +98,7 @@ public class PoolakeyExample : MonoBehaviour
     {
         switch (purchaseInfo.productId)
         {
+            case "trial_subscription":
             case "infinite_gas_monthly":
                 vehicle.SetGas(5);
                 break;
