@@ -51,10 +51,13 @@ namespace Bazaar.Poolakey
                 if (result.status == Status.Success)
                 {
                     var trialSubscription = result.data.Find(x => x.sku == "trial_subscription");
-                    var trialCallback = new TrialSubscriptionCallbackProxy(trialSubscription);
-                    bridge.Call("checkTrialSubscriptionState", trialCallback);
-                    var trialResult = await trialCallback.taskCompletionSource.Task;
-                    trialSubscription = trialResult.data;
+                    if (trialSubscription != null)
+                    {
+                        var trialCallback = new TrialSubscriptionCallbackProxy(trialSubscription);
+                        bridge.Call("checkTrialSubscriptionState", trialCallback);
+                        var trialResult = await trialCallback.taskCompletionSource.Task;
+                        trialSubscription = trialResult.data;
+                    }
                 }
             }
             else
