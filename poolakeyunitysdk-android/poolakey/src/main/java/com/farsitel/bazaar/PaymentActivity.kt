@@ -17,6 +17,12 @@ class PaymentActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (savedInstanceState != null){
+            finish()
+            return
+        }
+
         initArgs()
         when (command) {
             Command.PurchaseProduct -> purchaseProduct()
