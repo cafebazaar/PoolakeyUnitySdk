@@ -146,7 +146,7 @@ object PoolakeyKotlinBridge {
     }
 
     fun startActivity(
-        activity: Activity,
+        activity: Context,
         command: PaymentActivity.Command,
         callback: PaymentCallback,
         productId: String,

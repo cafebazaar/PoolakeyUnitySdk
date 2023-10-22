@@ -1,6 +1,6 @@
 package com.farsitel.bazaar
 
-import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
@@ -147,7 +147,7 @@ class PaymentActivity : FragmentActivity() {
 
         @JvmStatic
         fun start(
-            activity: Activity,
+            activity: Context,
             command: Command,
             productId: String,
             callback: PaymentCallback,
