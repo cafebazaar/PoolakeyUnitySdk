@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(String message, String stackTrace) {
                 ((App) getApplication()).log("onPurchaseFailure " + message);
             }
-        }, "gas", "", "");
+        }, "PaymentTest1000", "", "");
     }
 
     public void consume(String purchaseToken) {

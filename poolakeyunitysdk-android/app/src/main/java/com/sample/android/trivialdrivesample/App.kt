@@ -34,7 +34,10 @@ class App : Application() {
     private fun getSKUDetails() {
         getSkuDetails(
             "inapp",
-            listOf("gas","premium","trial_subscription","infinite_gas_monthly","dynamic_price"),
+            listOf(
+                "gas", "premium", "trial_subscription", "infinite_gas_monthly", "dynamic_price",
+                "PaymentTest1000"
+            ),
             object : SKUDetailsCallback {
                 override fun onSuccess(data: List<SkuDetails?>) {
                     log("onSkuDetailsSuccess $data")
