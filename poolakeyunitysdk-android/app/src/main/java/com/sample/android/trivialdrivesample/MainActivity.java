@@ -1,6 +1,7 @@
 package com.sample.android.trivialdrivesample;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -22,30 +23,31 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         textView = findViewById(R.id.textView);
-        ((App) getApplication()).getLiveData().observe(this, this::log);
+        MutableLiveData<String> logLiveData = getApp().getLiveData();
+        logLiveData.observe(this, this::log);
     }
 
     public void purchase(View view) {
         PoolakeyKotlinBridge.INSTANCE.startActivity(this, PaymentActivity.Command.PurchaseProduct, new PaymentCallback() {
             @Override
             public void onStart() {
-                ((App) getApplication()).log("onPurchaseStart");
+                getApp().log("onPurchaseStart");
             }
 
             @Override
             public void onCancel() {
-                ((App) getApplication()).log("onPurchaseCancel");
+                getApp().log("onPurchaseCancel");
             }
 
             @Override
             public void onSuccess(String orderId, String purchaseToken, String payload, String packageName, int purchaseState, long purchaseTime, String productId, String originalJson, String dataSignature) {
-                ((App) getApplication()).log("onPurchaseSuccess " + orderId);
+                getApp().log("onPurchaseSuccess " + orderId);
                 consume(purchaseToken);
             }
 
             @Override
             public void onFailure(String message, String stackTrace) {
-                ((App) getApplication()).log("onPurchaseFailure " + message);
+                getApp().log("onPurchaseFailure " + message);
             }
         }, "PaymentTest1000", "", "");
     }
@@ -54,12 +56,12 @@ public class MainActivity extends AppCompatActivity {
         PoolakeyKotlinBridge.INSTANCE.consume(purchaseToken, new ConsumeCallback() {
             @Override
             public void onSuccess() {
-                ((App) getApplication()).log("onConsumeSuccess");
+                getApp().log("onConsumeSuccess");
             }
 
             @Override
             public void onFailure(String message, String stackTrace) {
-                ((App) getApplication()).log("onConsumeFailure " + message);
+                getApp().log("onConsumeFailure " + message);
 
             }
         });
@@ -68,5 +70,9 @@ public class MainActivity extends AppCompatActivity {
     void log(String message) {
         Log.i(PoolakeyBridge.TAG, message);
         textView.setText(message);
+    }
+
+    private App getApp() {
+        return (App) getApplication();
     }
 }
