@@ -1,6 +1,6 @@
 package com.farsitel.bazaar
 
-import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
@@ -147,7 +147,7 @@ class PaymentActivity : FragmentActivity() {
 
         @JvmStatic
         fun start(
-            activity: Activity,
+            context: Context,
             command: Command,
             productId: String,
             callback: PaymentCallback,
@@ -155,12 +155,12 @@ class PaymentActivity : FragmentActivity() {
             dynamicPriceToken: String?
         ) {
             paymentCallback = callback
-            val intent = Intent(activity, PaymentActivity::class.java)
+            val intent = Intent(context, PaymentActivity::class.java)
             intent.putExtra(KEY_PRODUCT_ID, productId)
             intent.putExtra(KEY_PAYLOAD, payload)
             intent.putExtra(KEY_DYNAMIC_PRICE_TOKEN, dynamicPriceToken)
             intent.putExtra(KEY_COMMAND, command.name)
-            activity.startActivity(intent)
+            context.startActivity(intent)
         }
     }
 

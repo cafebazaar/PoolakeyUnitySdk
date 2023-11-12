@@ -6,6 +6,9 @@
     <application>
         <activity
             android:name="com.farsitel.bazaar.PaymentActivity"
+            android:configChanges="screenSize|orientation|mnc|mcc|colorMode|fontWeightAdjustment
+|fontScale|keyboard|keyboardHidden|locale|layoutDirection|screenLayout|smallestScreenSize|navigation
+|touchscreen|density|uiMode"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
     </application>
     

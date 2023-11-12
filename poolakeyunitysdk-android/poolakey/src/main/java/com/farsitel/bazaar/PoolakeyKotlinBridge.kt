@@ -1,6 +1,5 @@
 package com.farsitel.bazaar
 
-import android.app.Activity
 import android.content.Context
 import com.farsitel.bazaar.callback.*
 import ir.cafebazaar.poolakey.Connection
@@ -146,7 +145,7 @@ object PoolakeyKotlinBridge {
     }
 
     fun startActivity(
-        activity: Activity,
+        context: Context,
         command: PaymentActivity.Command,
         callback: PaymentCallback,
         productId: String,
@@ -163,7 +162,7 @@ object PoolakeyKotlinBridge {
             return
         }
         PaymentActivity.start(
-            activity,
+            context,
             command,
             productId,
             callback,
