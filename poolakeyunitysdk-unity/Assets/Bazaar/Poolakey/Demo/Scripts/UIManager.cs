@@ -48,12 +48,6 @@ namespace PoolakeyDemo
 
         public void OnPurchaseSubscriptionClick()
         {
-            if (Application.isEditor)
-            { 
-                _resourceManager.AddJellyEndTime(new TimeSpan(0,1,0));
-                return;
-            }
-
             Purchase(1);
         }
 
