@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Bazaar/Poolakey/Demo/Scenes/TestScene.unity
+    guid: f2568c8baf21249428357f036a4320f7
   m_configObjects: {}

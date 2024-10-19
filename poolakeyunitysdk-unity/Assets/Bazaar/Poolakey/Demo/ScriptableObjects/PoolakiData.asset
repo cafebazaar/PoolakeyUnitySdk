@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef7d8b89e2c2b2346a1323f271922f6a, type: 3}
+  m_Name: PoolakiData
+  m_EditorClassIdentifier: 
+  <RsaKey>k__BackingField: MIHNMA0GCSqGSIb3DQEBAQUAA4G7ADCBtwKBrwCc/8ka6hgzFJ9C6tyVRC1EyjF0W68803l6KvmKXUZp/nXwd3+qTc1hC41y94n+NiwqzQ/L7Nle2eEPdyQoz1o+LmqQDHeBd8dp6G5yr2K61NmL6YFIhsBYIKCYDudZSU0hGMVKxEL/0fPie4TZlkoQ7Nsdiz4WLypotk0rEJYTc8F87g+kDwPsmBS8DF/uCRnKfDGQ87aDQPUkKzNHGL6ow/doLtAZP8YK4EDK+d8CAwEAAQ==
+  <Items>k__BackingField:
+  - <ItemName>k__BackingField: "\u0645\u062D\u0635\u0648\u0644 \u062A\u0633\u062A\u06CC
+      \u06CC\u06A9"
+    <ItemSKU>k__BackingField: test-product-1
+    <ItemPrice>k__BackingField: 1
+    <ItemType>k__BackingField: 0
+  - <ItemName>k__BackingField: "\t \u0627\u0634\u062A\u0631\u0627\u06A9 \u062A\u0633\u062A\u06CC
+      1"
+    <ItemSKU>k__BackingField: test-subscription-1
+    <ItemPrice>k__BackingField: 1
+    <ItemType>k__BackingField: 1
+  - <ItemName>k__BackingField: "\u0645\u062D\u0635\u0648\u0644 \u062A\u0633\u062A\u06CC
+      2"
+    <ItemSKU>k__BackingField: test-product-2
+    <ItemPrice>k__BackingField: 1
+    <ItemType>k__BackingField: 0
