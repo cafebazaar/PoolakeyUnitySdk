@@ -14,8 +14,9 @@ namespace PoolakeyDemo
 
         private Payment _payment;
 
-        private Func<string,Task>  _onPurchaseSuccess=null;
-        private Action _onPurchaseFailure=null;
+        private Func<string, Task> _onPurchaseSuccess = null;
+        private Action _onPurchaseFailure = null;
+
         private void Awake()
         {
             var securityCheck = SecurityCheck.Enable(Data.RsaKey);
@@ -38,10 +39,11 @@ namespace PoolakeyDemo
             Debug.Log($"Payment connected: {result.ToString()}");
         }
 
-        public async Task Purchase(string productId,Action<bool> onComplete)
+        public async Task Purchase(string productId, Action<bool> onComplete)
         {
             Debug.Log($"Purchasing product: {productId}");
             var result = await _payment.Purchase(productId);
+            Debug.Log($"purchase result: {result.message}, status: {result.status},{result.data.purchaseState}");
             if (result.status == Status.Success)
             {
                 Debug.Log(result.data.ToString());
@@ -50,16 +52,18 @@ namespace PoolakeyDemo
                 onComplete.Invoke(true);
                 return;
             }
+
             onComplete?.Invoke(false);
         }
 
-        public async Task PurchaseWithCallBack(string productId,Func<string,Task> onSuccess=null,Action onFailure=null)
+        public async Task PurchaseWithCallBack(string productId, Func<string, Task> onSuccess = null,
+            Action onFailure = null)
         {
             Debug.Log($"Purchasing product: {productId}");
             _onPurchaseFailure = onFailure;
             _onPurchaseSuccess = onSuccess;
-           await  _payment.Purchase(productId,onComplete:OnComplete);
-        
+            var result = await _payment.Purchase(productId, onComplete: OnComplete);
+            Debug.Log($"purchase result: {result.message}, status: {result.status},{result.data.purchaseState}");
         }
 
         private void OnComplete(Result<PurchaseInfo> result)
@@ -67,7 +71,7 @@ namespace PoolakeyDemo
             if (result.status != Status.Success)
             {
                 _onPurchaseFailure?.Invoke();
-                _onPurchaseFailure=null;
+                _onPurchaseFailure = null;
                 _onPurchaseSuccess = null;
                 return;
             }
@@ -76,7 +80,7 @@ namespace PoolakeyDemo
             var token = result.data.purchaseToken;
             PlayerPrefs.SetString(result.data.productId, token);
             _onPurchaseSuccess?.Invoke(result.data.productId);
-            _onPurchaseFailure=null;
+            _onPurchaseFailure = null;
             _onPurchaseSuccess = null;
         }
 
@@ -94,7 +98,7 @@ namespace PoolakeyDemo
             });
         }
 
-        public async Task ConsumePurchase(string productId,Action<bool> onComplete=null)
+        public async Task ConsumePurchase(string productId, Action<bool> onComplete = null)
         {
             Debug.Log($"consuming purchase: {productId}");
             if (PlayerPrefs.HasKey(productId))
@@ -108,6 +112,7 @@ namespace PoolakeyDemo
                 onComplete?.Invoke(true);
                 return;
             }
+
             onComplete?.Invoke(false);
         }
     }

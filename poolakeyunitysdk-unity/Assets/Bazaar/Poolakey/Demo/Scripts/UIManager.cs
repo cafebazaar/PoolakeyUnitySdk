@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using RTLTMPro;
 using TMPro;
 using UnityEngine;
 
@@ -12,8 +13,8 @@ namespace PoolakeyDemo
         [SerializeField] private UiManagerData _uiManagerData;
         [SerializeField] MessageBoxPanel _messageBoxPanel;
         [SerializeField] ResourceManager _resourceManager;
-        [SerializeField] private TMP_Text _text_starCount;
-        [SerializeField] private TMP_Text _text_remainingJellyTime;
+        [SerializeField] private RTLTextMeshPro _text_starCount;
+        [SerializeField] private RTLTextMeshPro _text_remainingJellyTime;
         private bool _isPurchasing = false;
         private bool _isConsuming = false;
         private bool _isGettingPurchaseData = false;
@@ -83,6 +84,11 @@ namespace PoolakeyDemo
 
         private void OnSubscriptionPurchaseComplete(bool isSucceeded)
         {
+            #if UNITY_EDITOR
+            _messageBoxPanel.Show(_uiManagerData.OnPurchaseSuccessMessage);
+            _resourceManager.AddJellyEndTime(new TimeSpan(0,5,0));
+            return;
+            #endif
             if (isSucceeded)
             {
                 _messageBoxPanel.Show(_uiManagerData.OnPurchaseSuccessMessage);
@@ -135,11 +141,13 @@ namespace PoolakeyDemo
 
         private void OnStarCountChane(int starCount)
         {
+            _text_starCount.Farsi=true;
             _text_starCount.text = $"{starCount:N0}";
         }
 
         private void OnJellyTimeUpdate(string jellyTime)
         {
+            _text_remainingJellyTime.Farsi=true;
             _text_remainingJellyTime.text = jellyTime;
         }
     }
