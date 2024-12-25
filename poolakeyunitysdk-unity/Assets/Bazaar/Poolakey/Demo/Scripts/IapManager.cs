@@ -15,8 +15,8 @@ namespace PoolakeyDemo
         private Payment _payment;
 
         private Func<string, Task> _onPurchaseSuccess = null;
-        private Action _onPurchaseFailure = null;
-
+        private Action<bool> _onPurchaseFailure = null;
+        private bool _userCancelled = false;
         private void Awake()
         {
             var securityCheck = SecurityCheck.Enable(Data.RsaKey);
@@ -42,7 +42,9 @@ namespace PoolakeyDemo
         public async Task Purchase(string productId, Action<bool> onComplete)
         {
             Debug.Log($"Purchasing product: {productId}");
+            _userCancelled = true;
             var result = await _payment.Purchase(productId);
+            _userCancelled = false;
             Debug.Log($"purchase result: {result.message}, status: {result.status},{result.data.purchaseState}");
             if (result.status == Status.Success)
             {
@@ -57,12 +59,14 @@ namespace PoolakeyDemo
         }
 
         public async Task PurchaseWithCallBack(string productId, Func<string, Task> onSuccess = null,
-            Action onFailure = null)
+            Action<bool> onFailure = null)
         {
             Debug.Log($"Purchasing product: {productId}");
             _onPurchaseFailure = onFailure;
             _onPurchaseSuccess = onSuccess;
+            _userCancelled = true;
             var result = await _payment.Purchase(productId, onComplete: OnComplete);
+            _userCancelled = false;
             Debug.Log($"purchase result: {result.message}, status: {result.status},{result.data.purchaseState}");
         }
 
@@ -70,7 +74,9 @@ namespace PoolakeyDemo
         {
             if (result.status != Status.Success)
             {
-                _onPurchaseFailure?.Invoke();
+                
+                _onPurchaseFailure?.Invoke(_userCancelled);
+                _userCancelled = false;
                 _onPurchaseFailure = null;
                 _onPurchaseSuccess = null;
                 return;
@@ -115,5 +121,8 @@ namespace PoolakeyDemo
 
             onComplete?.Invoke(false);
         }
+
+     
+
     }
 }

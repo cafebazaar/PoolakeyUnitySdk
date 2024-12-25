@@ -8,6 +8,7 @@ namespace PoolakeyDemo
         [field: SerializeField] public string OnPurchaseFailedMessage { get; private set; }
         [field: SerializeField] public string OnConsumptionSuccessMessage { get; private set; }
         [field: SerializeField] public string OnConsumptionFailedMessage { get; private set; }
+        [field: SerializeField] public string OnUserCancelledPurchase { get; private set; }
         
     }
 }

@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using RTLTMPro;
-using TMPro;
 using UnityEngine;
 
 namespace PoolakeyDemo
@@ -9,23 +8,18 @@ namespace PoolakeyDemo
     public class UIManager : MonoBehaviour
     {
         [SerializeField] private IapManager _iapManager;
-        [SerializeField] private PoolakiData _poolakiData; 
+        [SerializeField] private PoolakiData _poolakiData;
         [SerializeField] private UiManagerData _uiManagerData;
         [SerializeField] MessageBoxPanel _messageBoxPanel;
         [SerializeField] ResourceManager _resourceManager;
         [SerializeField] private RTLTextMeshPro _text_starCount;
         [SerializeField] private RTLTextMeshPro _text_remainingJellyTime;
-        private bool _isPurchasing = false;
-        private bool _isConsuming = false;
-        private bool _isGettingPurchaseData = false;
 
         private void Awake()
         {
             _resourceManager.OnStarCountChange += OnStarCountChane;
             _resourceManager.OnRemainingTimeChange += OnJellyTimeUpdate;
-
         }
-
         private void OnDestroy()
         {
             _resourceManager.OnStarCountChange -= OnStarCountChane;
@@ -54,17 +48,16 @@ namespace PoolakeyDemo
 
         private async Task PurchaseAndConsume(int index)
         {
-            if (_isPurchasing)
-                return;
-            _isPurchasing = true;
             await _iapManager.PurchaseWithCallBack(_poolakiData.Items[index].ItemSKU, ConsumeOnPurchaseSuccess,
                 OnPurchaseFailure);
-            _isPurchasing = false;
         }
 
-        private void OnPurchaseFailure()
+        private void OnPurchaseFailure(bool userCancelled)
         {
-            _messageBoxPanel.Show(_uiManagerData.OnPurchaseFailedMessage);
+            var message = userCancelled
+                ? _uiManagerData.OnUserCancelledPurchase
+                : _uiManagerData.OnPurchaseFailedMessage;
+            _messageBoxPanel.Show(message);
         }
 
         private async Task ConsumeOnPurchaseSuccess(string itemSKU)
@@ -74,25 +67,21 @@ namespace PoolakeyDemo
 
         private async Task Purchase(int itemIndex)
         {
-            if (_isPurchasing)
-                return;
-            _isPurchasing = true;
             Action<bool> onComplete = itemIndex == 1 ? OnSubscriptionPurchaseComplete : OnPurchaseComplete;
-            await _iapManager.Purchase(_poolakiData.Items[itemIndex].ItemSKU,onComplete);
-            _isPurchasing = false;
+            await _iapManager.Purchase(_poolakiData.Items[itemIndex].ItemSKU, onComplete);
         }
 
         private void OnSubscriptionPurchaseComplete(bool isSucceeded)
         {
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             _messageBoxPanel.Show(_uiManagerData.OnPurchaseSuccessMessage);
-            _resourceManager.AddJellyEndTime(new TimeSpan(0,5,0));
+            _resourceManager.AddJellyEndTime(new TimeSpan(0, 5, 0));
             return;
-            #endif
+#endif
             if (isSucceeded)
             {
                 _messageBoxPanel.Show(_uiManagerData.OnPurchaseSuccessMessage);
-                _resourceManager.AddJellyEndTime(new TimeSpan(0,5,0));
+                _resourceManager.AddJellyEndTime(new TimeSpan(0, 5, 0));
                 return;
             }
 
@@ -112,20 +101,16 @@ namespace PoolakeyDemo
 
         private async Task Consume(int itemIndex)
         {
-            if (_isConsuming)
-                return;
-            _isConsuming = true;
+            // if (_isConsuming)
+            //     return;
+            // _isConsuming = true;
             await _iapManager.ConsumePurchase(_poolakiData.Items[itemIndex].ItemSKU, OnConsumeComplete);
-            _isConsuming = false;
+            // _isConsuming = false;
         }
 
         public async Task GetPurchaseData()
         {
-            if (_isGettingPurchaseData)
-                return;
-            _isGettingPurchaseData = true;
             await _iapManager.GetPurchases();
-            _isGettingPurchaseData = false;
         }
 
         private void OnConsumeComplete(bool isSucceeded)
@@ -136,18 +121,19 @@ namespace PoolakeyDemo
                 _resourceManager.AddStar(100);
                 return;
             }
+
             _messageBoxPanel.Show(_uiManagerData.OnConsumptionFailedMessage);
         }
 
         private void OnStarCountChane(int starCount)
         {
-            _text_starCount.Farsi=true;
+            _text_starCount.Farsi = true;
             _text_starCount.text = $"{starCount:N0}";
         }
 
         private void OnJellyTimeUpdate(string jellyTime)
         {
-            _text_remainingJellyTime.Farsi=true;
+            _text_remainingJellyTime.Farsi = true;
             _text_remainingJellyTime.text = jellyTime;
         }
     }
