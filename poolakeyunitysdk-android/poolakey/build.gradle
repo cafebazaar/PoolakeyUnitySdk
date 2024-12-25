@@ -1,13 +1,14 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 ext {
-    kotlin_version = '1.4.20'
+    kotlin_version = '1.9.10'
 }
 android {
-    compileSdkVersion 32
+    namespace 'com.farsitel.bazaar'
+    compileSdkVersion 34
 
     defaultConfig {
-        minSdkVersion 9
+        minSdkVersion 21
         versionCode 200100
         versionName "2.1.0"
     }
@@ -15,6 +16,7 @@ android {
     buildTypes {
         debug {
             buildConfigField "String", 'POOLAKEY_VERSION', "\"{$library.poolakey_version}\""
+            android.buildFeatures.buildConfig true
         }
         release {
             buildConfigField "String", 'POOLAKEY_VERSION', "\"{$library.poolakey_version}\""
@@ -26,8 +28,11 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_19
+        targetCompatibility JavaVersion.VERSION_19
+    }
+    kotlinOptions {
+        jvmTarget = '19'  // or '1.8' for compatibility
     }
 }
 
@@ -45,13 +50,14 @@ task createJar(type: Copy) {
     include('classes.jar')
     rename('classes.jar', 'Poolakey.jar')
 }*/
-task updateAAR(type: Copy) {
+tasks.register('updateAAR', Copy) {
     from('build/outputs/aar')
     into('../../poolakeyunitysdk-unity/Assets/Bazaar/Poolakey/Plugins/')
     include(project.name + '-release.aar')
+    dependsOn 'bundleReleaseAar'
 }
 
-project.tasks.whenTaskAdded { Task theTask ->
+project.tasks.configureEach { Task theTask ->
     if (theTask.name == 'assembleRelease') {
         theTask.dependsOn(updateAAR) // Compile the custom task after compiling apk
     }
