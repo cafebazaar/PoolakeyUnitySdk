@@ -18,4 +18,5 @@ var consumeResult = await payment.Consume(purchaseResult.data.purchaseToken);
 
 <br/>
 ## How to use?
+Import the unity packge provided and you are good to go. You can also check the sample provided with one of the packages and see the wiki pages to get familiarised with the methods and procedurs of SDK.
 For more information regarding the usage of Poolakey, please check out the [wiki](https://github.com/cafebazaar/PoolakeyUnitySdk/wiki) page.
